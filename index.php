@@ -1,20 +1,30 @@
 <?php
 include_once 'connectdb.php';
 session_start();
+error_reporting(0);
 
 if(isset($_POST['btn_login'])) {
     
     $useremail = $_POST['txt_email'];
     $password = $_POST['txt_password'];
     
-    if (!empty($useremail && $password)) {
-        
-        echo $useremail.' - '.$password;    
-        
-    } else {
-        echo 'Feilds can not be blank';
-    }
+    $select = $pdo->prepare("select * from tbl_user where useremail='$useremail' AND password='$password'");
     
+    $select->execute();
+    
+    $row = $select->fetch(PDO::FETCH_ASSOC);
+    
+//    echo print_r($row);
+    
+    if ($row['useremail'] == $useremail AND $row['password'] == $password) {
+        
+        echo $success = 'Login Successfull';
+        
+        header('refresh:1;dashboard.php');
+    } else {
+        echo 'Login fail';
+    }
+      
 }
 
 ?>
