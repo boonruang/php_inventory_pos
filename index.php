@@ -16,11 +16,14 @@ if(isset($_POST['btn_login'])) {
     
 //    echo print_r($row);
     
-    if ($row['useremail'] == $useremail AND $row['password'] == $password) {
-        
+    if ($row['useremail'] == $useremail AND $row['password'] == $password AND $row['role'] == 'Admin') {
         echo $success = 'Login Successfull';
         
         header('refresh:1;dashboard.php');
+    } else if ($row['useremail'] == $useremail AND $row['password'] == $password AND $row['role'] == 'User'){
+        echo $success = 'Login Successfull';
+        
+        header('refresh:1;user.php');
     } else {
         echo 'Login fail';
     }
