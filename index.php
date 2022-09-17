@@ -64,8 +64,21 @@ if(isset($_POST['btn_login'])) {
         </script>';
         
         header('refresh:3;user.php');
+    } else {
+        echo '<script type="text/javascript">
+        jQuery(function validation(){
+        swal({
+          title: "Email or password is wrong!",
+          text: "Details not matched",
+          icon: "error",
+          button: "Ok",
+        });
+        
+        });
+        </script>';
     }
 }
+
 
 ?>
 
