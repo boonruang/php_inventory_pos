@@ -118,7 +118,7 @@ if(isset($_POST['btn_login'])) {
       </div>
       <div class="row">
         <div class="col-xs-8">
-            <a href="#">I forgot my password</a><br>
+            <a href="#" onclick="swal('To Get Password','Please Contact to Admin OR Service Provider','error');">I forgot my password</a><br>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
