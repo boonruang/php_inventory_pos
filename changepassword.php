@@ -7,12 +7,16 @@ session_start();
 include_once 'header.php'; 
 
 
-
+    // when click on update password button we get out values from user into variables
+    
 if (isset($_POST['btnupdate'])) {
+    
+
     $oldpassword_txt = $_POST['txtoldpass'];
     $newpassword_txt = $_POST['txtnewpass'];
     $confpassword_txt = $_POST['txtconfpass'];
 
+    // using of select query we get out database recoard according to useremail
     
     $email = $_SESSION['useremail'];
     $select = $pdo->prepare("select * from tbl_user where useremail ='$email'");
@@ -20,12 +24,78 @@ if (isset($_POST['btnupdate'])) {
     $select->execute();
     
     $row = $select->fetch(PDO::FETCH_ASSOC);
-    echo $row['useremail'];
-    echo $row['username'];
+    
+    $useremail_db = $row['useremail'];
+    $password_db = $row['password'];
+    
+    // we compare user input and database values
+    
+    if ($oldpassword_txt == $password_db) {
+        if ($newpassword_txt == $confpassword_txt ) {
+            
+    // if values mathed then we run update query            
+            $update = $pdo->prepare("update tbl_user set password=:pass where useremail=:email");
+            
+            $update->bindParam(':pass',$confpassword_txt);
+            $update->bindParam(':email',$email);
+            
+            
+            if ($update->execute()) {
+                echo '<script type="text/javascript">
+                jQuery(function validation(){
+                swal({
+                  title: "Good job! '.$_SESSION['username'].'",
+                  text: "Password updated successfully",
+                  icon: "success",
+                  button: "Ok",
+                });
+
+                });
+                </script>';
+            } else {
+                echo '<script type="text/javascript">
+                jQuery(function validation(){
+                swal({
+                  title: "Error!!",
+                  text: "Query fail",
+                  icon: "error",
+                  button: "Ok",
+                });
+
+                });
+                </script>';
+            }
+            
+            
+            
+        } else {
+                echo '<script type="text/javascript">
+                jQuery(function validation(){
+                swal({
+                  title: "Oops!!",
+                  text: "Your new password And confirm password is not matched",
+                  icon: "warning",
+                  button: "Ok",
+                });
+
+                });
+                </script>';
+        }
+    } else {
+                echo '<script type="text/javascript">
+                jQuery(function validation(){
+                swal({
+                  title: "Warning!!",
+                  text: "Your password is wrong please fill the right password",
+                  icon: "warning",
+                  button: "Ok",
+                });
+
+                });
+                </script>';
+    }
     
 }
-
-
  
 
 ?>
@@ -63,17 +133,17 @@ if (isset($_POST['btnupdate'])) {
                
                 <div class="form-group">
                   <label for="exampleInputPassword1">Old Password</label>
-                  <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password" name="txtoldpass">
+                  <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password" name="txtoldpass" required>
                 </div>
                 
                 <div class="form-group">
                   <label for="exampleInputPassword1">New Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="txtnewpass">
+                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="txtnewpass" required>
                 </div>         
                 
                 <div class="form-group">
                   <label for="exampleInputPassword1">Confirm Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="txtconfpass">
+                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="txtconfpass" required>
                 </div>                                   
 
               </div>
