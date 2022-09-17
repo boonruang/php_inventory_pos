@@ -1,7 +1,7 @@
 <?php 
 include_once 'connectdb.php';
-session_start();
 
+session_start();
 if ($_SESSION['useremail'] == "") {
     header('location:index.php');
 }
