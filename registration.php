@@ -2,8 +2,42 @@
 include_once 'connectdb.php';
 
 session_start();
+//error_reporting(0);
 
-include_once 'header.php';     
+include_once 'header.php';    
+
+if (isset($_GET['id'])) {
+    
+    $id = $_GET['id'];
+
+    $delete = $pdo->prepare("delete from tbl_user where userid =".$id);
+    
+    if($delete->execute()) {
+        echo '<script type="text/javascript">
+        jQuery(function validation(){
+        swal({
+          title: "Good Job!",
+          text: "User deleted successfully",
+          icon: "success",
+          button: "Ok",
+        });
+
+        });
+        </script>';
+    } else {
+        echo '<script type="text/javascript">
+        jQuery(function validation(){
+        swal({
+          title: "Error",
+          text: "User can not delete!!",
+          icon: "error",
+          button: "Ok",
+        });
+
+        });
+        </script>';        
+    }
+}
 
 if (isset($_POST['btnsave'])) {
     $username = $_POST['txtname'];
@@ -74,6 +108,7 @@ if (isset($_POST['btnsave'])) {
       }
     
 }
+
 
 
 
@@ -168,7 +203,9 @@ if (isset($_POST['btnsave'])) {
                     <td>'.$row->useremail.'</td>
                     <td>'.$row->password.'</td>
                     <td>'.$row->role.'</td>  
-                    <td></td>
+                    <td>
+                        <a href="registration.php?id='.$row->userid.'" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-trash"></span></a>
+                    </td>
                 </tr>     
                 '; 
             }
