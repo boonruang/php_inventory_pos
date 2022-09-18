@@ -2,17 +2,6 @@
 include_once 'connectdb.php';
 
 session_start();
-//error_reporting(0);
-//
-//if ($_SESSION['useremail'] == "") {
-//    header('location:index.php');
-//}
-//
-//if ($_SESSION['role'] == 'Admin') {
-//    include_once 'header.php';     
-//} else {
-//    include_once 'headeruser.php';
-//}
 
 include_once 'header.php';     
 
@@ -24,20 +13,68 @@ if (isset($_POST['btnsave'])) {
     
 //    echo $username.'-'.$useremail.'-'.$password.'-'.$userrole;
     
-    $insert = $pdo->prepare("insert into tbl_user (username, useremail, password, role) values (:username, :useremail, :password, :role)");
-    
-    $insert->bindParam(':username',$username);
-    $insert->bindParam(':useremail',$useremail);
-    $insert->bindParam(':password',$password);
-    $insert->bindParam(':role',$userrole);
-    
-    if ($insert->execute()) {
-        echo 'registration successfull';
-    } {
-        echo 'registration fail';
-    }
+      if (isset($_POST['txtemail'])) {
+          
+        $select = $pdo->prepare("select useremail from tbl_user where useremail ='$useremail'");
+        $select->execute();
+          
+          if ($select->rowCount()) {
+             // mail already exist
+                echo '<script type="text/javascript">
+                jQuery(function validation(){
+                swal({
+                  title: "Warning!",
+                  text: "Email already exist!! Please try different email",
+                  icon: "warning",
+                  button: "Ok",
+                });
+
+                });
+                </script>';
+          } else {
+             // email not exist able to register account
+            $insert = $pdo->prepare("insert into tbl_user (username, useremail, password, role) values (:username, :useremail, :password, :role)");
+
+            $insert->bindParam(':username',$username);
+            $insert->bindParam(':useremail',$useremail);
+            $insert->bindParam(':password',$password);
+            $insert->bindParam(':role',$userrole);
+
+            if ($insert->execute() > 0) {
+//                echo 'registration successfull';
+                echo '<script type="text/javascript">
+                jQuery(function validation(){
+                swal({
+                  title: "Good job!!",
+                  text: "Registration is successfully",
+                  icon: "success",
+                  button: "Ok",
+                });
+
+                });
+                </script>';
+                
+            } else {
+//                echo 'registration fail';
+                echo '<script type="text/javascript">
+                jQuery(function validation(){
+                swal({
+                  title: "Error!",
+                  text: "Registration fail!!",
+                  icon: "error",
+                  button: "Ok",
+                });
+
+                });
+                </script>';                
+            }
+
+          }
+
+      }
     
 }
+
 
 
 ?>
@@ -76,21 +113,21 @@ if (isset($_POST['btnsave'])) {
                
                 <div class="form-group">
                   <label >Name</label>
-                  <input type="text" class="form-control" name="txtname" placeholder="Enter Name" name>
+                  <input type="text" class="form-control" name="txtname" placeholder="Enter Name" required>
                 </div>
                                
                 <div class="form-group">
                   <label >Email address</label>
-                  <input type="email" class="form-control" name="txtemail" placeholder="Enter email">
+                  <input type="email" class="form-control" name="txtemail" placeholder="Enter email" required>
                 </div>
                 <div class="form-group">
                   <label >Password</label>
-                  <input type="password" class="form-control" name="txtpassword" placeholder="Password">
+                  <input type="password" class="form-control" name="txtpassword" placeholder="Password" required>
                 </div>
                 
                 <div class="form-group">
                   <label>Role</label>
-                  <select class="form-control" name="txtselect_option">
+                  <select class="form-control" name="txtselect_option" required>
                     <option value="" disabled selected>Select role</option>
                     <option>User</option>
                     <option>Admin</option>
