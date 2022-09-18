@@ -2,17 +2,44 @@
 include_once 'connectdb.php';
 
 session_start();
-error_reporting(0);
+//error_reporting(0);
+//
+//if ($_SESSION['useremail'] == "") {
+//    header('location:index.php');
+//}
+//
+//if ($_SESSION['role'] == 'Admin') {
+//    include_once 'header.php';     
+//} else {
+//    include_once 'headeruser.php';
+//}
 
-if ($_SESSION['useremail'] == "") {
-    header('location:index.php');
+include_once 'header.php';     
+
+if (isset($_POST['btnsave'])) {
+    $username = $_POST['txtname'];
+    $useremail = $_POST['txtemail'];
+    $password = $_POST['txtpassword'];
+    $userrole = $_POST['txtselect_option'];
+    
+//    echo $username.'-'.$useremail.'-'.$password.'-'.$userrole;
+    
+    $insert = $pdo->prepare("insert into tbl_user (username, useremail, password, role) values (:username, :useremail, :password, :role)");
+    
+    $insert->bindParam(':username',$username);
+    $insert->bindParam(':useremail',$useremail);
+    $insert->bindParam(':password',$password);
+    $insert->bindParam(':role',$userrole);
+    
+    if ($insert->execute()) {
+        echo 'registration successfull';
+    } {
+        echo 'registration fail';
+    }
+    
 }
 
-if ($_SESSION['role'] == 'Admin') {
-    include_once 'header.php';     
-} else {
-    include_once 'headeruser.php';
-}
+
 ?>
  
   <!-- Content Wrapper. Contains page content -->
@@ -67,9 +94,12 @@ if ($_SESSION['role'] == 'Admin') {
                     <option value="" disabled selected>Select role</option>
                     <option>User</option>
                     <option>Admin</option>
-
                   </select>
-                </div>                
+                </div>    
+                
+                <div class="form-group">
+                <button type="submit" class="btn btn-info" name="btnsave">Save</button>                         
+                </div>                               
                 
             </div>
             <div class="col-md-8">
@@ -77,7 +107,7 @@ if ($_SESSION['role'] == 'Admin') {
                 <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>#</th>
                         <th>NAME</th>
                         <th>EMAIL</th>
                         <th>PASSWORD</th>
@@ -120,7 +150,7 @@ if ($_SESSION['role'] == 'Admin') {
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-info" name="btnregister">Save</button>
+
               </div>
             </form>
           </div>    
