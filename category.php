@@ -2,8 +2,74 @@
 include_once 'connectdb.php';
 
 session_start();
+
+if ($_SESSION['useremail'] == "" OR $_SESSION['role'] != 'Admin') {
+    header('location:index.php');
+}
 include_once 'header.php'; 
+
+if (isset($_POST['btnsave'])) {
+    $category = $_POST['txtcategory'];
+    
+    if (empty($category)) {
+        
+        $error = '<script type="text/javascript">
+        jQuery(function validation(){
+        
+        swal({
+          title: "Feild is empty",
+          text: "Please fill a feild!!",
+          icon: "error",
+          button: "Ok",
+        });
+
+        });
+        </script>';   
+        echo $error;
+    }
+    
+    if (!isset($error)) {
+        
+        $insert = $pdo->prepare("insert into tbl_category (category) values (:category)");
+        
+        $insert->bindParam(':category',$category);
+        
+
+        if ($insert->execute()) {
+            echo '<script type="text/javascript">
+            jQuery(function validation(){
+
+            swal({
+              title: "Good job!",
+              text: "Your category added!!",
+              icon: "success",
+              button: "Ok",
+            });
+
+            });
+            </script>';  
+        } else {
+            echo '<script type="text/javascript">
+            jQuery(function validation(){
+
+            swal({
+              title: "Error!!",
+              text: "Query fail",
+              icon: "error",
+              button: "Ok",
+            });
+
+            });
+            </script>';  
+        }
+        
+    }
+    
+}
+
+
 ?>
+
  
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -38,7 +104,7 @@ include_once 'header.php';
                
                 <div class="form-group">
                   <label >Category</label>
-                  <input type="text" class="form-control" name="txtcategory" placeholder="Enter Category" required>
+                  <input type="text" class="form-control" name="txtcategory" placeholder="Enter Category" >
                 </div>
                                        
                 <div class="form-group">
