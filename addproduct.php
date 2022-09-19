@@ -8,7 +8,7 @@ include_once 'header.php';
 if (isset($_POST['btnaddproduct'])) {
     $productname = $_POST['txtname']; 
     $category = $_POST['txtselect_option'];
-    $purchaseprice = $_POST['txtprice'];
+    $purchaseprice = $_POST['txtpprice'];
     $saleprice = $_POST['txtsaleprice'];
     $stock = $_POST['txtstock'];
     $description = $_POST['txtdescription'];
@@ -20,26 +20,93 @@ if (isset($_POST['btnaddproduct'])) {
     $f_extension = explode(".",$f_name);
     $f_extension = strtolower(end($f_extension));
     $f_newfile = uniqid().'.'.$f_extension;
+    
+    echo $productname.'-'.$category.'-'.$purchaseprice;
 
     //print_r($f_newfile);
     
-    $store = "upload/".$f_newfile;    
+    $store = "productimages/".$f_newfile;    
     
     
-    if ($f_extension == 'jpg' || $f_extension == 'png' || $f_extension == 'gif') {
+    if ($f_extension == 'jpg' || $f_extension == 'jpeg' || $f_extension == 'png' || $f_extension == 'gif') {
     //    echo 'file is right';
         if ($f_size >=1000000) {
-            echo "Max file should be 1 MB";
+            
+        $error = '<script type="text/javascript">
+        jQuery(function validation(){
+        swal({
+          title: "Error!",
+          text: "Max file should be 1 MB!",
+          icon: "error",
+          button: "Ok",
+        });
+
+        });
+        </script>';    
+        echo $error;
         } else {
 
             if (move_uploaded_file($f_tmp,$store)) {
-                echo "file uploaded successful ";
+                $productimage = $f_newfile;
             }
 
         }
     } else {
         echo 'only jpg png gif is allowed';
+        $error = '<script type="text/javascript">
+        jQuery(function validation(){
+        swal({
+          title: "Warning!",
+          text: "only jpg, jpeg, png, gif can be upload!",
+          icon: "error",
+          button: "Ok",
+        });
+
+        });
+        </script>';    
+        echo $error;        
     }
+    
+    if (!isset($error)) {
+      $insert = $pdo->prepare("insert into tbl_product (pname,pcategory,purchaseprice,saleprice,pstock,pdescription,pimage) values(:pname,:pcategory,:purchaseprice,:saleprice,:pstock,:pdescription,:pimage)");
+        
+        $insert->bindParam(":pname",$productname);
+        $insert->bindParam(":pcategory",$category);
+        $insert->bindParam(":purchaseprice",$purchaseprice);
+        $insert->bindParam(":saleprice",$saleprice);
+        $insert->bindParam(":pstock",$stock);
+        $insert->bindParam(":pdescription",$description);
+        $insert->bindParam(":pimage",$productimage);
+        
+        if ($insert->execute()) {
+        echo '<script type="text/javascript">
+        jQuery(function validation(){
+        swal({
+          title: "Add product successfull!",
+          text: "Product added!",
+          icon: "success",
+          button: "Ok",
+        });
+
+        });
+        </script>';               
+            
+        } else {
+            
+        echo '<script type="text/javascript">
+        jQuery(function validation(){
+        swal({
+          title: "Error!",
+          text: "Add product fail!",
+          icon: "error",
+          button: "Ok",
+        });
+
+        });
+        </script>';               
+        }
+        
+    } 
     
 
 }
@@ -74,8 +141,10 @@ if (isset($_POST['btnaddproduct'])) {
             </div>
             <!-- /.box-header -->
             <!-- form start -->
+            <form action="" method="post" name="formproduct" enctype="multipart/form-data">
+            
             <div class="box-body">
-            <form action="" method="" name="formproduct" enctype="multipart/form-data">
+
             <div class="col-md-6">
                 <div class="form-group">
                   <label >Product Name</label>
@@ -104,7 +173,7 @@ if (isset($_POST['btnaddproduct'])) {
                 
                 <div class="form-group">
                   <label >Purchase Price</label>
-                  <input type="number" min="1" step="1" class="form-control" name="txtprice" placeholder="Enter..." required>
+                  <input type="number" min="1" step="1" class="form-control" name="txtpprice" placeholder="Enter..." required>
                 </div>    
                 
                 <div class="form-group">
@@ -124,12 +193,12 @@ if (isset($_POST['btnaddproduct'])) {
                 </div>  
                 <div class="form-group">
                   <label >Product image</label>
-                  <input type="file" class="input-group" name="producimage" required>
+                  <input type="file" class="input-group" name="myfile" required>
                   <p>upload image</p>
                 </div>                                                 
             </div>
             
-            </form>
+
             </div>    
                         
             <div class="box-footer">
@@ -138,8 +207,8 @@ if (isset($_POST['btnaddproduct'])) {
                 <button type="submit" class="btn btn-info" name="btnaddproduct">Add product</button>  
             </div>
               
-    
-            </div>
+          </form>
+          </div>
 
     </section>
     <!-- /.content -->
