@@ -8,39 +8,6 @@ if ($_SESSION['useremail'] == "" OR $_SESSION['role'] != 'Admin') {
 }
 include_once 'header.php'; 
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    
-    $delete = $pdo->prepare("delete from tbl_category where catid=".$id);
-
-    if($delete->execute()) {
-        echo '<script type="text/javascript">
-        jQuery(function validation(){
-        swal({
-          title: "Good Job!",
-          text: "Category deleted successfully",
-          icon: "success",
-          button: "Ok",
-        });
-
-        });
-        </script>';
-    } else {
-        echo '<script type="text/javascript">
-        jQuery(function validation(){
-        swal({
-          title: "Error",
-          text: "Category can not delete!!",
-          icon: "error",
-          button: "Ok",
-        });
-
-        });
-        </script>';        
-    }
-}
-
-
 if (isset($_POST['btnsave'])) {
     $category = $_POST['txtcategory'];
     
@@ -130,21 +97,87 @@ if (isset($_POST['btnsave'])) {
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form" action="" method="post">
-              <div class="box-body">
+            <div class="box-body">
+             <form role="form" action="" method="post">
+        <?php 
+        if (isset($_POST['btnedit'])) {
+            $id = $_POST['btnedit'];
+            $select = $pdo->prepare("select * from tbl_category where catid=".$id);
+            $select->execute();
+            
+            if ($select) {
+            $row = $select->fetch(PDO::FETCH_OBJ);
+            echo '<div class="col-md-4">
+
+                    <div class="form-group">
+                    
+                      <input type="hidden" class="form-control" value="'.$row->catid.'" name="txtcategory" placeholder="Enter Category">     <label>Category</label>                 
+                      <input type="text" class="form-control" value="'.$row->category.'" name="txtcategory" placeholder="Enter Category">
+                    </div>
+
+                    <div class="form-group">
+                    <button type="submit" class="btn btn-info" name="btnupdate">Update</button>                         
+                    </div>                               
+
+                </div>            
+                ';                 
+            } else {
+                echo 'not found';
+            }
+           
+            
+        } else {
+            echo '<div class="col-md-4">
+
+                    <div class="form-group">
+                      <label >Category</label>
+                      <input type="text" class="form-control" name="txtcategory" placeholder="Enter Category">
+                    </div>
+
+                    <div class="form-group">
+                    <button type="submit" class="btn btn-warning" name="btnsave">Save</button>                         
+                    </div>                               
+
+                </div>            
+                ';
+        }
+                 
+        if (isset($_POST['btndelete'])) {
+            $id = $_POST['btndelete'];
+
+            $delete = $pdo->prepare("delete from tbl_category where catid=".$id);
+
+            if($delete->execute()) {
+                echo '<script type="text/javascript">
+                jQuery(function validation(){
+                swal({
+                  title: "Good Job!",
+                  text: "Category deleted successfully",
+                  icon: "success",
+                  button: "Ok",
+                });
+
+                });
+                </script>';
+            } else {
+                echo '<script type="text/javascript">
+                jQuery(function validation(){
+                swal({
+                  title: "Error",
+                  text: "Category can not delete!!",
+                  icon: "error",
+                  button: "Ok",
+                });
+
+                });
+                </script>';        
+            }
+        }                 
+
+        ?>
+              
                
-            <div class="col-md-4">
-               
-                <div class="form-group">
-                  <label >Category</label>
-                  <input type="text" class="form-control" name="txtcategory" placeholder="Enter Category" required>
-                </div>
-                                       
-                <div class="form-group">
-                <button type="submit" class="btn btn-warning" name="btnsave">Save</button>                         
-                </div>                               
-                
-            </div>
+
             <div class="col-md-8">
                 
                 <table class="table table-striped">
@@ -190,15 +223,15 @@ if (isset($_POST['btnsave'])) {
                 
             </div>                             
                               
+            </form>
 
-
-              </div>
+          </div>
               <!-- /.box-body -->
 
               <div class="box-footer">
 
               </div>
-            </form>
+
           </div>   
           
     </section>
