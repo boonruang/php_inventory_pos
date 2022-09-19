@@ -26,9 +26,11 @@ include_once 'header.php';
       <!--------------------------
         | Your Page Content Here |
         -------------------------->
-          <div class="box box-success">
+          <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">Product Form</h3>
+              <h3 class="box-title">
+                <a href="product.php" class="btn btn-primary" role="button">Back To Product List</a>                  
+              </h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
@@ -70,9 +72,6 @@ include_once 'header.php';
                   <input type="number" min="1" step="1" class="form-control" name="txtsaleprice" placeholder="Enter..." required>
                 </div>  
                              
-                <div class="form-group">
-                <button type="submit" class="btn btn-info" name="btnsave">Save</button>                         
-                </div>                  
             </div>
             <div class="col-md-6">
                 <div class="form-group">
@@ -91,7 +90,15 @@ include_once 'header.php';
             </div>
             
             </form>
-            </div>        
+            </div>    
+                        
+            <div class="box-footer">
+
+                
+                <button type="submit" class="btn btn-info" name="btnaddproduct">Add product</button>  
+            </div>
+              
+    
             </div>
 
     </section>
