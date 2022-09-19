@@ -8,6 +8,39 @@ if ($_SESSION['useremail'] == "" OR $_SESSION['role'] != 'Admin') {
 }
 include_once 'header.php'; 
 
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    
+    $delete = $pdo->prepare("delete from tbl_category where catid=".$id);
+
+    if($delete->execute()) {
+        echo '<script type="text/javascript">
+        jQuery(function validation(){
+        swal({
+          title: "Good Job!",
+          text: "Category deleted successfully",
+          icon: "success",
+          button: "Ok",
+        });
+
+        });
+        </script>';
+    } else {
+        echo '<script type="text/javascript">
+        jQuery(function validation(){
+        swal({
+          title: "Error",
+          text: "Category can not delete!!",
+          icon: "error",
+          button: "Ok",
+        });
+
+        });
+        </script>';        
+    }
+}
+
+
 if (isset($_POST['btnsave'])) {
     $category = $_POST['txtcategory'];
     
@@ -91,7 +124,7 @@ if (isset($_POST['btnsave'])) {
       <!--------------------------
         | Your Page Content Here |
         -------------------------->
-          <div class="box box-warning">
+          <div class="box box-success">
             <div class="box-header with-border">
               <h3 class="box-title">Category Form</h3>
             </div>
@@ -104,7 +137,7 @@ if (isset($_POST['btnsave'])) {
                
                 <div class="form-group">
                   <label >Category</label>
-                  <input type="text" class="form-control" name="txtcategory" placeholder="Enter Category" >
+                  <input type="text" class="form-control" name="txtcategory" placeholder="Enter Category" required>
                 </div>
                                        
                 <div class="form-group">
@@ -126,6 +159,28 @@ if (isset($_POST['btnsave'])) {
                 <tbody>
 
             <?php
+                    
+            $select = $pdo->prepare("select * from tbl_category order by catid desc");
+
+            $select->execute();
+
+              
+                    
+            while ($row = $select->fetch(PDO::FETCH_OBJ)) {
+                
+         echo '
+        <tr>
+            <td>'.$row->catid.'</td>
+            <td>'.$row->category.'</td>
+            <td>
+            <button type="submit" value="'.$row->catid.'" class="btn btn-success" name="btnedit">Edit</button>
+            </td>
+            <td>
+            <button type="submit" value="'.$row->catid.'" class="btn btn-danger" name="btndelete">Delete</button>
+            </td>                    
+        </tr>
+        ';
+            }
 
             ?>                    
                                                               
