@@ -129,6 +129,39 @@ if (isset($_POST['btnupdate'])) {
    
 } // btnupdate end of update
 
+if (isset($_POST['btndelete'])) {
+    
+    $id = $_POST['btndelete'];
+
+    $delete = $pdo->prepare("delete from tbl_category where catid=".$id);
+
+    if($delete->execute()) {
+        echo '<script type="text/javascript">
+        jQuery(function validation(){
+        swal({
+          title: "Deleted!",
+          text: "Category deleted successfully",
+          icon: "success",
+          button: "Ok",
+        });
+
+        });
+        </script>';
+    } else {
+        echo '<script type="text/javascript">
+        jQuery(function validation(){
+        swal({
+          title: "Error!",
+          text: "Category can not delete!!",
+          icon: "error",
+          button: "Ok",
+        });
+
+        });
+        </script>';        
+    }
+} // btndelete end here
+
 ?>
 
  
@@ -202,38 +235,7 @@ if (isset($_POST['btnupdate'])) {
                 </div>            
                 ';
         }
-                 
-        if (isset($_POST['btndelete'])) {
-            $id = $_POST['btndelete'];
-
-            $delete = $pdo->prepare("delete from tbl_category where catid=".$id);
-
-            if($delete->execute()) {
-                echo '<script type="text/javascript">
-                jQuery(function validation(){
-                swal({
-                  title: "Good Job!",
-                  text: "Category deleted successfully",
-                  icon: "success",
-                  button: "Ok",
-                });
-
-                });
-                </script>';
-            } else {
-                echo '<script type="text/javascript">
-                jQuery(function validation(){
-                swal({
-                  title: "Error",
-                  text: "Category can not delete!!",
-                  icon: "error",
-                  button: "Ok",
-                });
-
-                });
-                </script>';        
-            }
-        }                 
+                             
 
         ?>
               
@@ -258,22 +260,19 @@ if (isset($_POST['btnupdate'])) {
 
             $select->execute();
 
-              
-                    
             while ($row = $select->fetch(PDO::FETCH_OBJ)) {
-                
-         echo '
-        <tr>
-            <td>'.$row->catid.'</td>
-            <td>'.$row->category.'</td>
-            <td>
-            <button type="submit" value="'.$row->catid.'" class="btn btn-success" name="btnedit">Edit</button>
-            </td>
-            <td>
-            <button type="submit" value="'.$row->catid.'" class="btn btn-danger" name="btndelete">Delete</button>
-            </td>                    
-        </tr>
-        ';
+             
+            echo ' <tr>
+                <td>'.$row->catid.'</td>
+                <td>'.$row->category.'</td>
+                <td>
+                <button type="submit" value="'.$row->catid.'" class="btn btn-success" name="btnedit">Edit</button>
+                </td>
+                <td>
+                <button type="submit" value="'.$row->catid.'" class="btn btn-danger" name="btndelete">Delete</button>
+                </td>                    
+            </tr>
+            ';
             }
 
             ?>                    
