@@ -65,8 +65,69 @@ if (isset($_POST['btnsave'])) {
         
     }
     
-}
+} // btnsave for adding end here
 
+if (isset($_POST['btnupdate'])) {
+    
+            $id = $_POST['txtid'];
+            $category = $_POST['txtcategory'];
+    
+        if (empty($category)) {
+
+            $errorupdate = '<script type="text/javascript">
+            jQuery(function validation(){
+
+            swal({
+              title: "Error",
+              text: "Feild empty! please enter category",
+              icon: "error",
+              button: "Ok",
+            });
+
+            });
+            </script>';   
+            echo $errorupdate;
+        } 
+    
+    
+        if (!isset($errorupdate)) {
+        
+            $update = $pdo->prepare("update tbl_category SET category = :category where catid=".$id);
+    
+            $update->bindParam(":category",$category);
+            
+            if ($update->execute()) {
+                echo '<script type="text/javascript">
+                jQuery(function validation(){
+
+                swal({
+                  title: "Good job!",
+                  text: "Category updated",
+                  icon: "success",
+                  button: "Ok",
+                });
+
+                });
+                </script>';  
+            } else {
+                echo '<script type="text/javascript">
+                jQuery(function validation(){
+
+                swal({
+                  title: "Error!!",
+                  text: "Query fail",
+                  icon: "error",
+                  button: "Ok",
+                });
+
+                });
+                </script>';  
+            }
+
+        }
+            
+   
+} // btnupdate end of update
 
 ?>
 
@@ -111,7 +172,7 @@ if (isset($_POST['btnsave'])) {
 
                     <div class="form-group">
                     
-                      <input type="hidden" class="form-control" value="'.$row->catid.'" name="txtcategory" placeholder="Enter Category">     <label>Category</label>                 
+                      <input type="hidden" class="form-control" value="'.$row->catid.'" name="txtid" placeholder="Enter Category">     <label>Category</label>                 
                       <input type="text" class="form-control" value="'.$row->category.'" name="txtcategory" placeholder="Enter Category">
                     </div>
 
