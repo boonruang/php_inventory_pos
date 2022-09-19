@@ -45,22 +45,31 @@ include_once 'header.php';
                   <label>Category</label>
                   <select class="form-control" name="txtselect_option" required>
                     <option value="" disabled selected>Select Category</option>
-                    <option>User</option>
-                    <option>Admin</option>
+                    <?php
+                      
+                      $select = $pdo->prepare("select * from tbl_category order by catid desc");
+                      
+                      $select->execute();
+                      while ($row=$select->fetch(PDO::FETCH_ASSOC)) {
+                        extract($row);
+                        ?>
+                            <option><?php echo $row['category'];?></option>
+                        <?php
+                      }
+                      ?>
                   </select>
                 </div>    
                 
                 <div class="form-group">
                   <label >Purchase Price</label>
-                  <input type="text" class="form-control" name="txtprice" placeholder="Enter..." required>
+                  <input type="number" min="1" step="1" class="form-control" name="txtprice" placeholder="Enter..." required>
                 </div>    
                 
                 <div class="form-group">
                   <label >Sale Price</label>
-                  <input type="text" class="form-control" name="txtsaleprice" placeholder="Enter..." required>
+                  <input type="number" min="1" step="1" class="form-control" name="txtsaleprice" placeholder="Enter..." required>
                 </div>  
                              
-                                            
                 <div class="form-group">
                 <button type="submit" class="btn btn-info" name="btnsave">Save</button>                         
                 </div>                  
@@ -68,13 +77,17 @@ include_once 'header.php';
             <div class="col-md-6">
                 <div class="form-group">
                   <label >Stock</label>
-                  <input type="text" class="form-control" name="txtstock" placeholder="Enter..." required>
+                  <input type="number" min="1" step="1" class="form-control" name="txtstock" placeholder="Enter..." required>
                 </div>                                                        
                 <div class="form-group">
                   <label >Description</label>
                   <textarea class="form-control" name="txtdescription" placeholder="Enter..." required></textarea>
                 </div>  
-                                               
+                <div class="form-group">
+                  <label >Product image</label>
+                  <input type="file" class="input-group" name="producimage" required>
+                  <p>upload image</p>
+                </div>                                                 
             </div>
             
             </form>
