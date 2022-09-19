@@ -4,6 +4,46 @@ include_once 'connectdb.php';
 
 session_start();
 include_once 'header.php'; 
+
+if (isset($_POST['btnaddproduct'])) {
+    $productname = $_POST['txtname']; 
+    $category = $_POST['txtselect_option'];
+    $purchaseprice = $_POST['txtprice'];
+    $saleprice = $_POST['txtsaleprice'];
+    $stock = $_POST['txtstock'];
+    $description = $_POST['txtdescription'];
+    
+    $f_name = $_FILES['myfile']['name'];
+    $f_tmp = $_FILES['myfile']['tmp_name'];    
+
+    $f_size = $_FILES['myfile']['size'];    
+    $f_extension = explode(".",$f_name);
+    $f_extension = strtolower(end($f_extension));
+    $f_newfile = uniqid().'.'.$f_extension;
+
+    //print_r($f_newfile);
+    
+    $store = "upload/".$f_newfile;    
+    
+    
+    if ($f_extension == 'jpg' || $f_extension == 'png' || $f_extension == 'gif') {
+    //    echo 'file is right';
+        if ($f_size >=1000000) {
+            echo "Max file should be 1 MB";
+        } else {
+
+            if (move_uploaded_file($f_tmp,$store)) {
+                echo "file uploaded successful ";
+            }
+
+        }
+    } else {
+        echo 'only jpg png gif is allowed';
+    }
+    
+
+}
+
 ?>
  
   <!-- Content Wrapper. Contains page content -->
@@ -35,7 +75,7 @@ include_once 'header.php';
             <!-- /.box-header -->
             <!-- form start -->
             <div class="box-body">
-            <form action="" method="" name="formproduct">
+            <form action="" method="" name="formproduct" enctype="multipart/form-data">
             <div class="col-md-6">
                 <div class="form-group">
                   <label >Product Name</label>
