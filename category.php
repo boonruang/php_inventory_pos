@@ -185,7 +185,8 @@ if (isset($_POST['btndelete'])) {
       <!--------------------------
         | Your Page Content Here |
         -------------------------->
-          <div class="box box-success">
+         
+        <div class="box box-warning">
             <div class="box-header with-border">
               <h3 class="box-title">Category Form</h3>
             </div>

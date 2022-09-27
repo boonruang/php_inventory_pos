@@ -136,7 +136,7 @@ if (isset($_POST['btnaddproduct'])) {
           <div class="box box-info">
             <div class="box-header with-border">
               <h3 class="box-title">
-                <a href="product.php" class="btn btn-primary" role="button">Back To Product List</a>                  
+                <a href="productlist.php" class="btn btn-primary" role="button">Back To Product List</a>                  
               </h3>
             </div>
             <!-- /.box-header -->
