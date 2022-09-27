@@ -34,13 +34,12 @@ if (isset($_POST['btnaddproduct'])) {
             
         $error = '<script type="text/javascript">
         jQuery(function validation(){
-        swal({
-          title: "Error!",
-          text: "Max file should be 1 MB!",
-          icon: "error",
-          button: "Ok",
-        });
-
+            swal({
+              title: "Error!",
+              text: "Max file should be 1 MB!",
+              icon: "error",
+              button: "Ok",
+            });
         });
         </script>';    
         echo $error;
@@ -48,9 +47,51 @@ if (isset($_POST['btnaddproduct'])) {
 
             if (move_uploaded_file($f_tmp,$store)) {
                 $productimage = $f_newfile;
+                
+                if (!isset($error)) {
+                  $insert = $pdo->prepare("insert into tbl_product (pname,pcategory,purchaseprice,saleprice,pstock,pdescription,pimage) values(:pname,:pcategory,:purchaseprice,:saleprice,:pstock,:pdescription,:pimage)");
+
+                    $insert->bindParam(":pname",$productname);
+                    $insert->bindParam(":pcategory",$category);
+                    $insert->bindParam(":purchaseprice",$purchaseprice);
+                    $insert->bindParam(":saleprice",$saleprice);
+                    $insert->bindParam(":pstock",$stock);
+                    $insert->bindParam(":pdescription",$description);
+                    $insert->bindParam(":pimage",$productimage);
+
+                    if ($insert->execute()) {
+                    echo '<script type="text/javascript">
+                    jQuery(function validation(){
+                    swal({
+                      title: "Add product successfull!",
+                      text: "Product added!",
+                      icon: "success",
+                      button: "Ok",
+                    });
+
+                    });
+                    </script>';               
+
+                    } else {
+
+                    echo '<script type="text/javascript">
+                    jQuery(function validation(){
+                    swal({
+                      title: "Error!",
+                      text: "Add product fail!",
+                      icon: "error",
+                      button: "Ok",
+                    });
+
+                    });
+                    </script>';               
+                    }
+
+                }                 
             }
 
         }
+        
     } else {
         echo 'only jpg png gif is allowed';
         $error = '<script type="text/javascript">
@@ -67,46 +108,7 @@ if (isset($_POST['btnaddproduct'])) {
         echo $error;        
     }
     
-    if (!isset($error)) {
-      $insert = $pdo->prepare("insert into tbl_product (pname,pcategory,purchaseprice,saleprice,pstock,pdescription,pimage) values(:pname,:pcategory,:purchaseprice,:saleprice,:pstock,:pdescription,:pimage)");
-        
-        $insert->bindParam(":pname",$productname);
-        $insert->bindParam(":pcategory",$category);
-        $insert->bindParam(":purchaseprice",$purchaseprice);
-        $insert->bindParam(":saleprice",$saleprice);
-        $insert->bindParam(":pstock",$stock);
-        $insert->bindParam(":pdescription",$description);
-        $insert->bindParam(":pimage",$productimage);
-        
-        if ($insert->execute()) {
-        echo '<script type="text/javascript">
-        jQuery(function validation(){
-        swal({
-          title: "Add product successfull!",
-          text: "Product added!",
-          icon: "success",
-          button: "Ok",
-        });
 
-        });
-        </script>';               
-            
-        } else {
-            
-        echo '<script type="text/javascript">
-        jQuery(function validation(){
-        swal({
-          title: "Error!",
-          text: "Add product fail!",
-          icon: "error",
-          button: "Ok",
-        });
-
-        });
-        </script>';               
-        }
-        
-    } 
     
 
 }
