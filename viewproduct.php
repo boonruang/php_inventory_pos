@@ -28,15 +28,17 @@ include_once 'header.php';
         
         <div class="box box-warning">
             <div class="box-header with-border">
-              <h3 class="box-title">View Product</h3>
+              <h3 class="box-title">
+                  <a href="productlist.php" class="btn btn-primary" role="button">Back To Product List</a> 
+              </h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
             <div class="box-body">
     <?php
     $id=$_GET['id'];
-$select = $pdo->prepare("select * from tbl_product where pid=".$id);
-$select->execute();
+    $select = $pdo->prepare("select * from tbl_product where pid=$id");
+    $select->execute();
 
 while ($row=$select->fetch(PDO::FETCH_OBJ)) {
 echo '
@@ -44,23 +46,22 @@ echo '
 <center><p class="list-group-item list-group-item-success"><b></b>Product Detail</p></center>
 
     <ul class="list-group">
-      <li class="list-group-item">ID <span class="badge">'.$row->pid.'</span></li>
-      <li class="list-group-item">Product Name <span class="label label-info pull-right">'.$row->pname.'</span></li>
-      <li class="list-group-item">Category <span class="label label-info pull-right">'.$row->pcategory.'</span></li>
-      <li class="list-group-item">Purchase Price <span class="label label-info pull-right">'.$row->purchaseprice.'</span></li>
-      <li class="list-group-item">Sale Price <span class="label label-info pull-right">'.$row->saleprice.'</span></li>  
-      <li class="list-group-item">Profit <span class="label label-info pull-right">'.($row->saleprice - $row->purchaseprice).'</span></li>  
-      <li class="list-group-item">Stock <span class="label label-info pull-right">'.$row->pstock.'</span></li>      
-      <li class="list-group-item">Description - <span class="">'.$row->pdescription.'</span></li>
+      <li class="list-group-item"><b>ID</b><span class="badge">'.$row->pid.'</span></li>
+      <li class="list-group-item"><b>Product Name</b><span class="label label-info pull-right">'.$row->pname.'</span></li>
+      <li class="list-group-item"><b>Category </b><span class="label label-primary pull-right">'.$row->pcategory.'</span></li>
+      <li class="list-group-item"><b>Purchase Price</b><span class="label label-warning pull-right">'.$row->purchaseprice.'</span></li>
+      <li class="list-group-item"><b>Sale Price</b><span class="label label-warning pull-right">'.$row->saleprice.'</span></li>  
+      <li class="list-group-item"><b>Product Profit</b><span class="label label-success pull-right">'.($row->saleprice - $row->purchaseprice).'</span></li>  
+      <li class="list-group-item"><b>Stock</b><span class="label label-danger pull-right">'.$row->pstock.'</span></li>      
+      <li class="list-group-item"><b>Description:-</b><span class="">'.$row->pdescription.'</span></li>
     </ul>
 </div>
 <div class="col-md-6">
 <center><p class="list-group-item list-group-item-success"><b></b>Product Image</p></center>
 
     <ul class="list-group">
-      <li class="list-group-item">New <span class="badge">12</span></li>
-      <li class="list-group-item">Deleted <span class="badge">5</span></li>
-      <li class="list-group-item">Warnings <span class="badge">3</span></li>
+      <img src="productimages/'.$row->pimage.'" class="img-responsive">
+
     </ul>
 </div>
 ';   
