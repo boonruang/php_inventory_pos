@@ -19,7 +19,62 @@ $stock_db = $row['pstock'];
 $description_db = $row['pdescription'];
 $productimage_db = $row['pimage'];
 
-//print_r($row);
+
+if (isset($_POST['btnupdate'])) {
+$productname_txt = $_POST['txtname']; 
+$category_txt = $_POST['txtselect_option'];
+$purchaseprice_txt = $_POST['txtpprice'];
+$saleprice_txt = $_POST['txtsaleprice'];
+$stock_txt = $_POST['txtstock'];
+$description_txt = $_POST['txtdescription'];
+
+$f_name = $_FILES['myfile']['name'];
+    
+if (!empty($f_name)) {
+    
+} else {
+$update = $pdo->prepare("update tbl_product set pname=:pname, pcategory=:pcategory, purchaseprice=:pprice, saleprice=:saleprice, pstock=:pstock, pdescription=:pdescription, pimage=:pimage where pid=$id");
+    
+    
+$update->bindParam(':pname',$productname_txt);
+$update->bindParam(':pcategory',$category_txt);
+$update->bindParam(':pprice',$purchaseprice_txt);
+$update->bindParam(':saleprice',$saleprice_txt);
+$update->bindParam(':pstock',$stock_txt);
+$update->bindParam(':pdescription',$description_txt);
+$update->bindParam(':pimage',$productimage_db);
+    
+    
+    if ($update->execute()) {
+        $error = '<script type="text/javascript">
+        jQuery(function validation(){
+            swal({
+              title: "Product update successfull",
+              text: "Updated",
+              icon: "success",
+              button: "Ok",
+            });
+        });
+        </script>';    
+        echo $error;   
+    } else {
+         echo '<script type="text/javascript">
+        jQuery(function validation(){
+        swal({
+          title: "Error!",
+          text: "Update fail!",
+          icon: "error",
+          button: "Ok",
+        });
+
+        });
+        </script>';     
+    }
+    
+    
+}
+
+}
 
 ?>
  
@@ -50,7 +105,7 @@ $productimage_db = $row['pimage'];
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form action="" method="get" name="formproduct" enctype="multipart/form-data">
+            <form action="" method="post" name="formproduct" enctype="multipart/form-data">
             <div class="box-body">
 
             <div class="col-md-6">
@@ -104,7 +159,7 @@ $productimage_db = $row['pimage'];
                 <div class="form-group">
                   <label >Product image</label>
                   <img src="productimages/<?php echo $productimage_db; ?>" class="img-responsive" width="50px" height="50px">
-                  <input type="file" class="input-group" name="myfile" required>
+                  <input type="file" class="input-group" name="myfile">
                   <p>upload image</p>
                 </div>                                                 
             </div>
