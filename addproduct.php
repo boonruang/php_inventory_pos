@@ -199,13 +199,9 @@ if (isset($_POST['btnaddproduct'])) {
                   <p>upload image</p>
                 </div>                                                 
             </div>
-            
-
-            </div>    
+          </div>    
                         
             <div class="box-footer">
-
-                
                 <button type="submit" class="btn btn-info" name="btnaddproduct">Add product</button>  
             </div>
               
