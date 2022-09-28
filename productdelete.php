@@ -1,6 +1,10 @@
 <?php
 include_once 'connectdb.php';
 
+if ($_SESSION['useremail'] == "" OR $_SESSION['role'] != 'Admin') {
+    header('location:index.php');
+}
+
 $id = $_POST['pidd'];
 
 $sql = "delete from tbl_product where pid=$id";
