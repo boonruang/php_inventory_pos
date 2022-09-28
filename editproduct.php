@@ -19,7 +19,7 @@ $stock_db = $row['pstock'];
 $description_db = $row['pdescription'];
 $productimage_db = $row['pimage'];
 
-print_r($row);
+//print_r($row);
 
 ?>
  
@@ -56,7 +56,7 @@ print_r($row);
             <div class="col-md-6">
                 <div class="form-group">
                   <label >Product Name</label>
-                  <input type="text" class="form-control" name="txtname" placeholder="Enter Name" required>
+                  <input type="text" class="form-control" name="txtname" value="<?php echo $productname_db ?>" placeholder="Enter Name" required>
                 </div>
                                
                 
@@ -72,7 +72,9 @@ print_r($row);
                       while ($row=$select->fetch(PDO::FETCH_ASSOC)) {
                         extract($row);
                         ?>
-                            <option><?php echo $row['category'];?></option>
+                            <option <?php if($row['category'] == $category_db) { ?> selected="selected" <?php } ?> >
+                            
+                            <?php echo $row['category'];?></option>
                         <?php
                       }
                       ?>
@@ -81,26 +83,27 @@ print_r($row);
                 
                 <div class="form-group">
                   <label >Purchase Price</label>
-                  <input type="number" min="1" step="1" class="form-control" name="txtpprice" placeholder="Enter..." required>
+                  <input type="number" min="1" step="1" class="form-control" name="txtpprice" value="<?php echo $purchaseprice_db ?>"  placeholder="Enter..." required>
                 </div>    
                 
                 <div class="form-group">
                   <label >Sale Price</label>
-                  <input type="number" min="1" step="1" class="form-control" name="txtsaleprice" placeholder="Enter..." required>
+                  <input type="number" min="1" step="1" class="form-control" name="txtsaleprice" value="<?php echo $saleprice_db ?>" placeholder="Enter..." required>
                 </div>  
                              
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                   <label >Stock</label>
-                  <input type="number" min="1" step="1" class="form-control" name="txtstock" placeholder="Enter..." required>
+                  <input type="number" min="1" step="1" class="form-control" name="txtstock" value="<?php echo $stock_db ?>"  placeholder="Enter..." required>
                 </div>                                                        
                 <div class="form-group">
                   <label >Description</label>
-                  <textarea class="form-control" name="txtdescription" placeholder="Enter..." required></textarea>
+                  <textarea class="form-control" name="txtdescription" placeholder="Enter..." required><?php echo $description_db ?>  </textarea>
                 </div>  
                 <div class="form-group">
                   <label >Product image</label>
+                  <img src="productimages/<?php echo $productimage_db; ?>" class="img-responsive" width="50px" height="50px">
                   <input type="file" class="input-group" name="myfile" required>
                   <p>upload image</p>
                 </div>                                                 
