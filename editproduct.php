@@ -3,6 +3,24 @@ include_once 'connectdb.php';
 
 session_start();
 include_once 'header.php';
+
+$id = $_GET['id'];
+
+$select = $pdo->prepare("select * from tbl_product where pid=$id");
+$select->execute();
+$row=$select->fetch(PDO::FETCH_ASSOC);
+
+$id_db = $row['pid'];
+$productname_db = $row['pname'];
+$category_db = $row['pcategory'];
+$purchaseprice_db = $row['purchaseprice'];
+$saleprice_db = $row['saleprice'];
+$stock_db = $row['pstock'];
+$description_db = $row['pdescription'];
+$productimage_db = $row['pimage'];
+
+print_r($row);
+
 ?>
  
   <!-- Content Wrapper. Contains page content -->
@@ -28,11 +46,11 @@ include_once 'header.php';
         
         <div class="box box-warning">
             <div class="box-header with-border">
-              <h3 class="box-title">Product Update form</h3>
+              <h3 class="box-title">Product Update Form</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form action="" method="post" name="formproduct" enctype="multipart/form-data">
+            <form action="" method="get" name="formproduct" enctype="multipart/form-data">
             <div class="box-body">
 
             <div class="col-md-6">
