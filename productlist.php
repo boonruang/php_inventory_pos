@@ -121,22 +121,44 @@ $(document).ready(function(){
 
         var tdh = $(this);
         var id= $(this).attr("id");
-        //alert(id);
-        $.ajax({
-            
-            url:'productdelete.php',
-            type: 'post',
-            data: {
-                pidd:id
-            },
-            success: function(data){
-                tdh.parents('tr').hide();
-            }
-        })
         
-    })
+        
+        swal({
+          title: "Do you want to delete product?",
+          text: "Once Product is deleted, you can't recover it!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+
+            $.ajax({
+
+                url:'productdelete.php',
+                type: 'post',
+                data: {
+                    pidd:id
+                },
+                success: function(data){
+                    tdh.parents('tr').hide();
+                }
+            });
+
+            swal("Your Product has been deleted!", {
+              icon: "success",
+            });
+          } else {
+            swal("Your Product is safe!");
+          }
+        });
+
+        
+
+        
+    });
     
-})
+});
 </script>
 
 
