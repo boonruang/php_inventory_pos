@@ -21,7 +21,7 @@ if (isset($_POST['btnaddproduct'])) {
     $f_extension = strtolower(end($f_extension));
     $f_newfile = uniqid().'.'.$f_extension;
     
-    echo $productname.'-'.$category.'-'.$purchaseprice;
+    //echo $productname.'-'.$category.'-'.$purchaseprice;
 
     //print_r($f_newfile);
     

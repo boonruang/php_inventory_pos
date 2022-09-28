@@ -31,6 +31,103 @@ $description_txt = $_POST['txtdescription'];
 $f_name = $_FILES['myfile']['name'];
     
 if (!empty($f_name)) {
+
+    $f_tmp = $_FILES['myfile']['tmp_name'];    
+
+    $f_size = $_FILES['myfile']['size'];    
+    $f_extension = explode(".",$f_name);
+    $f_extension = strtolower(end($f_extension));
+    $f_newfile = uniqid().'.'.$f_extension;
+    
+
+    $store = "productimages/".$f_newfile;    
+    
+    
+    if ($f_extension == 'jpg' || $f_extension == 'jpeg' || $f_extension == 'png' || $f_extension == 'gif') {
+    //    echo 'file is right';
+        if ($f_size >=1000000) {
+            
+        $error = '<script type="text/javascript">
+        jQuery(function validation(){
+            swal({
+              title: "Error!",
+              text: "Max file should be 1 MB!",
+              icon: "error",
+              button: "Ok",
+            });
+        });
+        </script>';    
+        echo $error;
+        } else {
+
+            if (move_uploaded_file($f_tmp,$store)) {
+                
+                $f_newfile;
+                
+                if (!isset($error)) {
+                    
+                    $update = $pdo->prepare("update tbl_product set pname=:pname, pcategory=:pcategory, purchaseprice=:pprice, saleprice=:saleprice, pstock=:pstock, pdescription=:pdescription, pimage=:pimage where pid=$id");
+
+
+                    $update->bindParam(':pname',$productname_txt);
+                    $update->bindParam(':pcategory',$category_txt);
+                    $update->bindParam(':pprice',$purchaseprice_txt);
+                    $update->bindParam(':saleprice',$saleprice_txt);
+                    $update->bindParam(':pstock',$stock_txt);
+                    $update->bindParam(':pdescription',$description_txt);
+                    
+                    $update->bindParam(':pimage',$f_newfile);
+    
+
+                    if ($update->execute()) {
+                    echo '<script type="text/javascript">
+                    jQuery(function validation(){
+                    swal({
+                      title: "Update product successfull!",
+                      text: "Updated Product!",
+                      icon: "success",
+                      button: "Ok",
+                    });
+
+                    });
+                    </script>';               
+
+                    } else {
+
+                    echo '<script type="text/javascript">
+                    jQuery(function validation(){
+                    swal({
+                      title: "Error!",
+                      text: "Update Product fail!",
+                      icon: "error",
+                      button: "Ok",
+                    });
+
+                    });
+                    </script>';               
+                    }
+
+                }                 
+            }
+
+        }
+        
+    } else {
+        echo 'only jpg png gif is allowed';
+        $error = '<script type="text/javascript">
+        jQuery(function validation(){
+        swal({
+          title: "Warning!",
+          text: "only jpg, jpeg, png, gif can be upload!",
+          icon: "error",
+          button: "Ok",
+        });
+
+        });
+        </script>';    
+        echo $error;        
+    }    
+    
     
 } else {
 $update = $pdo->prepare("update tbl_product set pname=:pname, pcategory=:pcategory, purchaseprice=:pprice, saleprice=:saleprice, pstock=:pstock, pdescription=:pdescription, pimage=:pimage where pid=$id");
@@ -76,6 +173,21 @@ $update->bindParam(':pimage',$productimage_db);
 
 }
 
+// fix the old values in the updated form
+
+$select = $pdo->prepare("select * from tbl_product where pid=$id");
+$select->execute();
+$row=$select->fetch(PDO::FETCH_ASSOC);
+
+$id_db = $row['pid'];
+$productname_db = $row['pname'];
+$category_db = $row['pcategory'];
+$purchaseprice_db = $row['purchaseprice'];
+$saleprice_db = $row['saleprice'];
+$stock_db = $row['pstock'];
+$description_db = $row['pdescription'];
+$productimage_db = $row['pimage'];
+
 ?>
  
   <!-- Content Wrapper. Contains page content -->
@@ -101,7 +213,9 @@ $update->bindParam(':pimage',$productimage_db);
         
         <div class="box box-warning">
             <div class="box-header with-border">
-              <h3 class="box-title">Product Update Form</h3>
+              <h3 class="box-title">
+                <a href="productlist.php" class="btn btn-primary" role="button">Back To Product List</a>                   
+              </h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
