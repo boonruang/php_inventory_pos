@@ -37,7 +37,13 @@ include_once 'header.php';
                 <div class="col-md-6">
                 <div class="form-group">
                   <label >Customer Name</label>
+                  
+                  <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                      </div>                  
                   <input type="text" class="form-control" name="txtcustomer" placeholder="Enter Customer Name" required>
+                  </div>
                 </div>                
                 </div>
                 
@@ -82,36 +88,86 @@ include_once 'header.php';
                 <div class="col-md-6">
                     <div class="form-group">
                       <label >SubTotal</label>
+                      <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-usd"></i>
+                          </div>                         
                       <input type="text" class="form-control" name="txtsubtotal" required>
+                        </div>
                     </div>       
 
                     <div class="form-group">
                       <label >Tax (7%)</label>
+                      <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-usd"></i>
+                          </div>                         
                       <input type="text" class="form-control" name="txttax" required>
+                      </div>
                     </div>   
 
                     <div class="form-group">
                       <label >Discount</label>
+                      <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-usd"></i>
+                          </div>                         
                       <input type="text" class="form-control" name="txtdiscount" required>
+                        </div>
                     </div>                                                                                 
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                       <label >Total</label>
+                      <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-usd"></i>
+                          </div>                         
                       <input type="text" class="form-control" name="txttotal" required>
+                        </div>
                     </div>       
                     
                     <div class="form-group">
                       <label >Paid</label>
+                      <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-usd"></i>
+                          </div>                         
                       <input type="text" class="form-control" name="txtpaid" required>
+                        </div>
                     </div> 
                     
                     <div class="form-group">
                       <label >Due</label>
+                      <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-usd"></i>
+                          </div>                         
                       <input type="text" class="form-control" name="txtdue" required>
-                    </div>                                                                                                                             
+                        </div>
+                    </div>                                                                                                                <br>
+                      <!-- radio -->
+                      <label>Payment Method</label>
+                      <div class="form-group">
+                        <label>
+                          <input type="radio" name="r2" class="minimal-red" checked> CASH
+                        </label>
+                        <label>
+                          <input type="radio" name="r2" class="minimal-red"> CARD
+                        </label>
+                        <label>
+                          <input type="radio" name="r2" class="minimal-red"> 
+                          CHECK
+                        </label>
+                      </div>   
+                               
                 </div>
             </div> <!-- tax discount etc -->
+  
+            <div align="center">
+                <input type="submit" name="btnsaveorder" value="Save Order" class="btn btn-info">
+            </div>
+           
             </form>
         </div>                    
 
@@ -123,7 +179,13 @@ include_once 'header.php';
     //Date picker
     $('#datepicker').datepicker({
       autoclose: true
-    })
+    });
+    
+    //Red color scheme for iCheck
+    $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+      checkboxClass: 'icheckbox_minimal-red',
+      radioClass   : 'iradio_minimal-red'
+    });    
 </script>
     
 <!-- Main Footer -->
