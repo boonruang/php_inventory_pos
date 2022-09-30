@@ -66,7 +66,7 @@ include_once 'header.php';
             
             <div class="box-body">
                 <div class="col-md-12">
-                    <table id="producttable" class="table table-striped">
+                    <table id="producttable" class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -76,7 +76,9 @@ include_once 'header.php';
                                 <th>Enter Quantity</th>
                                 <th>Total</th>
                                 <th>
-                                <button type="button" name="add" class="btn btn-success btn-sm btnadd" ><span class="glyphicon glyphicon-plus"></span></button>                                
+                                <center>
+                                    <button type="button" name="add" class="btn btn-success btn-sm btnadd" ><span class="glyphicon glyphicon-plus"></span></button>
+                                </center>                          
                                 </th>
                             </tr>
                         </thead>
@@ -193,19 +195,26 @@ include_once 'header.php';
         $(document).on('click','.btnadd', function(){
             var html='';
             html+='<tr>';
-            html+='<td><input type="text" class="form-control pname" name="productname[]" required></td>';
+            html+='<td><input type="hidden" class="form-control pname" name="productname[]" readonly></td>';
             
-            html+='<td><input type="text" class="form-control stock" name="productid[]" required></td>';   
+            html+='<td><select class="form-control productid" name="productid[]"><option value="">Select Option</option></select></td>';            
             
-            html+='<td><input type="text" class="form-control productid" name="stock[]" required></td>';     
             
-            html+='<td><input type="text" class="form-control price" name="price[]" required></td>';   
+            html+='<td><input type="text" class="form-control stock" name="stock[]" readonly></td>';     
             
-            html+='<td><input type="text" class="form-control qty" name="qty[]" required></td>';             
+            html+='<td><input type="text" class="form-control price" name="price[]" readonly></td>';   
             
-            html+='<td><input type="text" class="form-control total" name="total[]" required></td>';             
+            html+='<td><input type="text" class="form-control qty" name="qty[]"></td>';             
+            
+            html+='<td><input type="text" class="form-control total" name="total[]" readonly></td>';             
+            
+            html+='<td><center><button type="button" name="remove" class="btn btn-danger btn-sm btnremove" ><span class="glyphicon glyphicon-remove"></span></button></center></td>';             
             
             $('#producttable').append(html);
+        });
+        
+        $(document).on('click','.btnremove', function(){
+            $(this).closest('tr').remove();
         });
     });
 </script>
