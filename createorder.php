@@ -163,10 +163,12 @@ include_once 'header.php';
                                
                 </div>
             </div> <!-- tax discount etc -->
-  
+          <hr>
             <div align="center">
                 <input type="submit" name="btnsaveorder" value="Save Order" class="btn btn-info">
             </div>
+           
+           <hr>
            
             </form>
         </div>                    
@@ -185,7 +187,27 @@ include_once 'header.php';
     $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
       checkboxClass: 'icheckbox_minimal-red',
       radioClass   : 'iradio_minimal-red'
-    });    
+    });  
+    
+    $(document).ready(function(){
+        $(document).on('click','.btnadd', function(){
+            var html='';
+            html+='<tr>';
+            html+='<td><input type="text" class="form-control pname" name="productname[]" required></td>';
+            
+            html+='<td><input type="text" class="form-control stock" name="productid[]" required></td>';   
+            
+            html+='<td><input type="text" class="form-control productid" name="stock[]" required></td>';     
+            
+            html+='<td><input type="text" class="form-control price" name="price[]" required></td>';   
+            
+            html+='<td><input type="text" class="form-control qty" name="qty[]" required></td>';             
+            
+            html+='<td><input type="text" class="form-control total" name="total[]" required></td>';             
+            
+            $('#producttable').append(html);
+        });
+    });
 </script>
     
 <!-- Main Footer -->
