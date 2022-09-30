@@ -112,7 +112,7 @@ include_once 'header.php';
     });
 </script>
 
-  <script>
+<script>
     
     $(document).ready( function () {
         $('[data-toggle="tooltip"]').tooltip();

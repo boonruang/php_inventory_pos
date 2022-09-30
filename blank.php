@@ -24,14 +24,16 @@ include_once 'header.php';
         -------------------------->
         
         <div class="box box-warning">
+           <form action="" method="post" name=""> 
             <div class="box-header with-border">
-              <h3 class="box-title">blank</h3>
+              <h3 class="box-title">New Order</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
             <div class="box-body">
             </div>
-        </div>                    
+            </form>
+        </div>                   
 
     </section>
     <!-- /.content -->
