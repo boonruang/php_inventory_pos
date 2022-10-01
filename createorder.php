@@ -232,6 +232,21 @@ include_once 'header.php';
             
             //Initialize Select2 Elements
             $('.productid').select2();
+            $('.productid').on('change', function(e){
+                
+                var productid = this.value;
+                $.ajax({
+                    url: "getproduct.php",
+                    method: "get",
+                    data: {id : productid},
+                    success: function(data) {
+//                        $(this).closest('stock').show();
+                        console.log(data);
+//                         $(this).createElement("<td>{data.}</td>");
+                    }
+                    
+                })
+            });
             
         });
         
