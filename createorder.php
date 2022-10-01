@@ -112,7 +112,7 @@ include_once 'header.php';
                           <div class="input-group-addon">
                             <i class="fa fa-usd"></i>
                           </div>                         
-                      <input type="text" class="form-control" name="txtsubtotal" required>
+                      <input type="text" class="form-control" name="txtsubtotal" id="txtsubtotal" required>
                         </div>
                     </div>       
 
@@ -235,18 +235,19 @@ include_once 'header.php';
             $('.productid').on('change', function(e){
                 
                 var productid = this.value;
-//                var tr= $(this).parents("tr").parent(); //this work also.
+                //var tr= $(this).parents("tr").parent(); //this work also.
                 var tr= $(this).parent().parent();
                 $.ajax({
                     url: "getproduct.php",
                     method: "get",
                     data: {id : productid},
                     success: function(data) {
-//                        console.log(data);
                     tr.find(".stock").val(data["pstock"]);
                     tr.find(".price").val(data["saleprice"]);
                     tr.find(".qty").val(1);
                     tr.find(".total").val(tr.find(".qty").val() * tr.find(".price").val());
+                        
+                    calculate();
 
                     }
                     
@@ -275,7 +276,25 @@ include_once 'header.php';
                 tr.find(".total").val(quantity.val() * tr.find(".price").val());
             }
             
+            calculate();
+            
         });
+        
+        function calculate() {
+            var subtotal = 0;
+            var tax = 0;
+            var discount = 0;
+            var net_total = 0;
+            var paid_amt = 0;
+            var due = 0;
+            
+            $(".total").each(function() {
+                subtotal = subtotal + ($(this).val()*1);
+            });
+            
+            $("#txtsubtotal").val(subtotal.toFixed(2));
+            
+        }
     });
 </script>
     
