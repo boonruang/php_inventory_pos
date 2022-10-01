@@ -72,7 +72,7 @@ include_once 'header.php';
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
-                      <input type="text" class="form-control pull-right" id="datepicker">
+                      <input type="text" class="form-control pull-right" id="datepicker" name="orderdate" value="<?php echo date("Y-m-d");?>" data-date-format="yyyy-mm-dd">
                     </div>
                     <!-- /.input group -->
                   </div>
@@ -112,7 +112,7 @@ include_once 'header.php';
                           <div class="input-group-addon">
                             <i class="fa fa-usd"></i>
                           </div>                         
-                      <input type="text" class="form-control" name="txtsubtotal" id="txtsubtotal" required>
+                      <input type="text" class="form-control" name="txtsubtotal" id="txtsubtotal" required readonly>
                         </div>
                     </div>       
 
@@ -122,7 +122,7 @@ include_once 'header.php';
                           <div class="input-group-addon">
                             <i class="fa fa-usd"></i>
                           </div>                         
-                      <input type="text" class="form-control" name="txttax" id="txttax" required>
+                      <input type="text" class="form-control" name="txttax" id="txttax" required readonly>
                       </div>
                     </div>   
 
@@ -143,7 +143,7 @@ include_once 'header.php';
                           <div class="input-group-addon">
                             <i class="fa fa-usd"></i>
                           </div>                         
-                      <input type="text" class="form-control" name="txttotal" id="txttotal" required>
+                      <input type="text" class="form-control" name="txttotal" id="txttotal" required readonly>
                         </div>
                     </div>       
                     
@@ -163,20 +163,20 @@ include_once 'header.php';
                           <div class="input-group-addon">
                             <i class="fa fa-usd"></i>
                           </div>                         
-                      <input type="text" class="form-control" name="txtdue" id="txtdue" required>
+                      <input type="text" class="form-control" name="txtdue" id="txtdue" required readonly>
                         </div>
                     </div>                                                                                                                <br>
                       <!-- radio -->
                       <label>Payment Method</label>
                       <div class="form-group">
                         <label>
-                          <input type="radio" name="r2" class="minimal-red" checked> CASH
+                          <input type="radio" name="rb" class="minimal-red" value="Cash" checked> CASH
                         </label>
                         <label>
-                          <input type="radio" name="r2" class="minimal-red"> CARD
+                          <input type="radio" name="rb" class="minimal-red" value="Card"> CARD
                         </label>
                         <label>
-                          <input type="radio" name="r2" class="minimal-red"> 
+                          <input type="radio" name="rb" class="minimal-red" value="Check"> 
                           CHECK
                         </label>
                       </div>   
