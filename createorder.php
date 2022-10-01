@@ -117,7 +117,7 @@ include_once 'header.php';
                     </div>       
 
                     <div class="form-group">
-                      <label >Tax (7%)</label>
+                      <label >Tax (5%)</label>
                       <div class="input-group">
                           <div class="input-group-addon">
                             <i class="fa fa-usd"></i>
@@ -247,7 +247,7 @@ include_once 'header.php';
                     tr.find(".qty").val(1);
                     tr.find(".total").val(tr.find(".qty").val() * tr.find(".price").val());
                         
-                    calculate();
+                    calculate(0,0);
 
                     }
                     
@@ -276,39 +276,40 @@ include_once 'header.php';
                 tr.find(".total").val(quantity.val() * tr.find(".price").val());
             }
             
-            calculate();
             
         });
         
-        function calculate() {
+        function calculate(dis,paid){
             var subtotal = 0;
             var tax = 0;
-            var discount = 0;
+            var discount = dis;
             var net_total = 0;
-            var paid_amt = 0;
+            var paid_amt = paid;
             var due = 0;
             
             $(".total").each(function() {
                 subtotal = subtotal + ($(this).val()*1);
             });
             
-            tax = 0.07 * subtotal;
+            tax = 0.05 * subtotal;
             net_total = tax + subtotal;
             net_total = net_total - discount;
-            due = net_total-paid_amt;
+            due = net_total - paid_amt;
             
             $("#txtsubtotal").val(subtotal.toFixed(2));
             $("#txttax").val(tax.toFixed(2));
-            
             $("#txttotal").val(net_total.toFixed(2));
-            
-            $("#txtdiscount").val(discount.toFixed(2));
-//            $("#txtdue").val(due.toFixed(2));
-            
+            $("#txtdiscount").val(discount);
+            $("#txtdue").val(due.toFixed(2));
 //            $("#txtpaid").val(paid_amt.toFixed(2));
             
-            
-        }
+          }  // function calculate end here
+        
+            $("#txtdiscount").keyup(function(){
+                var discount = $(this).val();
+                calculate(discount,0);
+            });
+
     });
 </script>
     
