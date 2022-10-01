@@ -235,14 +235,19 @@ include_once 'header.php';
             $('.productid').on('change', function(e){
                 
                 var productid = this.value;
+//                var tr= $(this).parents("tr").parent(); //this work also.
+                var tr= $(this).parent().parent();
                 $.ajax({
                     url: "getproduct.php",
                     method: "get",
                     data: {id : productid},
                     success: function(data) {
-//                        $(this).closest('stock').show();
-                        console.log(data);
-//                         $(this).createElement("<td>{data.}</td>");
+//                        console.log(data);
+                    tr.find(".stock").val(data["pstock"]);
+                    tr.find(".price").val(data["saleprice"]);
+                    tr.find(".qty").val(1);
+                    tr.find(".total").val(tr.find(".qty").val() * tr.find(".price").val());
+
                     }
                     
                 })
