@@ -18,6 +18,11 @@ function fill_product($pdo){
     return $output;
 }
 
+if (isset($_POST['btnsaveorder'])) {
+    
+    $customer_name = $_POST['txtcustomer'];
+}
+
 include_once 'header.php'; 
 ?>
  
