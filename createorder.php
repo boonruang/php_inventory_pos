@@ -222,7 +222,7 @@ include_once 'header.php';
             
             html+='<td><input type="text" class="form-control price" name="price[]" readonly></td>';   
             
-            html+='<td><input type="text" class="form-control qty" name="qty[]"></td>';             
+            html+='<td><input type="number" min="1" class="form-control qty" name="qty[]"></td>';             
             
             html+='<td><input type="text" class="form-control total" name="total[]" readonly></td>';             
             
@@ -253,10 +253,28 @@ include_once 'header.php';
                 })
             });
             
-        });
+        }); // btnadd end here
         
         $(document).on('click','.btnremove', function(){
             $(this).closest('tr').remove();
+        }); // btnremove end here
+        
+        $("#producttable").delegate(".qty","keyup change", function(){
+            
+            var quantity = $(this);
+            var tr= $(this).parent().parent();
+            
+            if ((quantity.val()-0)>(tr.find(".stock").val()-0)) {
+                swal("Warning!","Sorry! This much of quantity is not available","warning");
+                quantity.val(1);
+                tr.find(".total").val(quantity.val() * tr.find(".price").val());
+
+            } else {
+                
+
+                tr.find(".total").val(quantity.val() * tr.find(".price").val());
+            }
+            
         });
     });
 </script>
