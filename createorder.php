@@ -82,6 +82,7 @@ include_once 'header.php';
             
             <div class="box-body">
                 <div class="col-md-12">
+                   <div style="overflow-x:auto;">
                     <table id="producttable" class="table table-bordered">
                         <thead>
                             <tr>
@@ -98,7 +99,8 @@ include_once 'header.php';
                                 </th>
                             </tr>
                         </thead>
-                    </table>              
+                    </table>   
+                    </div>           
                 </div>
             </div> <!-- this is for table -->
             
