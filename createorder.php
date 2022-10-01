@@ -258,6 +258,9 @@ include_once 'header.php';
         
         $(document).on('click','.btnremove', function(){
             $(this).closest('tr').remove();
+            calculate(0,0);
+//            $("#txtdiscount").val(0);
+            $("#txtpaid").val(0);
         }); // btnremove end here
         
         $("#producttable").delegate(".qty","keyup change", function(){
@@ -269,13 +272,11 @@ include_once 'header.php';
                 swal("Warning!","Sorry! This much of quantity is not available","warning");
                 quantity.val(1);
                 tr.find(".total").val(quantity.val() * tr.find(".price").val());
-
             } else {
-                
-
                 tr.find(".total").val(quantity.val() * tr.find(".price").val());
             }
             
+            calculate(0,0);
             
         });
         
@@ -305,10 +306,18 @@ include_once 'header.php';
             
           }  // function calculate end here
         
-            $("#txtdiscount").keyup(function(){
-                var discount = $(this).val();
-                calculate(discount,0);
-            });
+        $("#txtdiscount").keyup(function(){
+            var discount = $(this).val();
+            calculate(discount,0);
+        });
+        
+        $("#txtpaid").keyup(function(){
+            var paid = $(this).val();
+            var discount = $("#txtdiscount").val();
+            calculate(discount,paid);
+        });
+        
+            
 
     });
 </script>
