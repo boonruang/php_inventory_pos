@@ -122,7 +122,7 @@ include_once 'header.php';
                           <div class="input-group-addon">
                             <i class="fa fa-usd"></i>
                           </div>                         
-                      <input type="text" class="form-control" name="txttax" required>
+                      <input type="text" class="form-control" name="txttax" id="txttax" required>
                       </div>
                     </div>   
 
@@ -132,7 +132,7 @@ include_once 'header.php';
                           <div class="input-group-addon">
                             <i class="fa fa-usd"></i>
                           </div>                         
-                      <input type="text" class="form-control" name="txtdiscount" required>
+                      <input type="text" class="form-control" name="txtdiscount" id="txtdiscount" required>
                         </div>
                     </div>                                                                                 
                 </div>
@@ -143,7 +143,7 @@ include_once 'header.php';
                           <div class="input-group-addon">
                             <i class="fa fa-usd"></i>
                           </div>                         
-                      <input type="text" class="form-control" name="txttotal" required>
+                      <input type="text" class="form-control" name="txttotal" id="txttotal" required>
                         </div>
                     </div>       
                     
@@ -153,7 +153,7 @@ include_once 'header.php';
                           <div class="input-group-addon">
                             <i class="fa fa-usd"></i>
                           </div>                         
-                      <input type="text" class="form-control" name="txtpaid" required>
+                      <input type="text" class="form-control" name="txtpaid" id="txtpaid" required>
                         </div>
                     </div> 
                     
@@ -163,7 +163,7 @@ include_once 'header.php';
                           <div class="input-group-addon">
                             <i class="fa fa-usd"></i>
                           </div>                         
-                      <input type="text" class="form-control" name="txtdue" required>
+                      <input type="text" class="form-control" name="txtdue" id="txtdue" required>
                         </div>
                     </div>                                                                                                                <br>
                       <!-- radio -->
@@ -292,7 +292,21 @@ include_once 'header.php';
                 subtotal = subtotal + ($(this).val()*1);
             });
             
+            tax = 0.07 * subtotal;
+            net_total = tax + subtotal;
+            net_total = net_total - discount;
+            due = net_total-paid_amt;
+            
             $("#txtsubtotal").val(subtotal.toFixed(2));
+            $("#txttax").val(tax.toFixed(2));
+            
+            $("#txttotal").val(net_total.toFixed(2));
+            
+            $("#txtdiscount").val(discount.toFixed(2));
+//            $("#txtdue").val(due.toFixed(2));
+            
+//            $("#txtpaid").val(paid_amt.toFixed(2));
+            
             
         }
     });
