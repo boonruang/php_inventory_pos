@@ -66,7 +66,6 @@ if (isset($_POST['btnsaveorder'])) {
             } else {
                 
                 $update = $pdo->prepare("update tbl_product set pstock='$rem_qty' where pid='$arr_productid[$i]'");
-                
                 $update->execute();
                 
             }
