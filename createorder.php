@@ -59,7 +59,20 @@ if (isset($_POST['btnsaveorder'])) {
     if ($invoice_id != null) {
         
         for ($i=0; $i < count($arr_productid); $i++) {
+            // update stock
+            $rem_qty = $arr_stock[$i] - $arr_qty[$i];
+            if ($rem_qty < 0) {
+                return "Order is not complete";
+            } else {
+                
+                $update = $pdo->prepare("update tbl_product set pstock='$rem_qty' where pid='$arr_productid[$i]'");
+                
+                $update->execute();
+                
+            }
             
+            
+            // insert order details
             $insert = $pdo->prepare("insert into tbl_invoice_details(invoice_id,product_id,product_name,qty,price,order_date) values(:invid,:pid,:pname,:qty,:price,:orderdate)");
             
             $insert->bindParam(':invid',$invoice_id);
@@ -72,7 +85,8 @@ if (isset($_POST['btnsaveorder'])) {
             $insert->execute();
             
         }
-        echo "success fully created order";
+//        echo "success fully created order";
+        header('location:orderlist.php');
     }                      
                        
                            
