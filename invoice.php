@@ -23,12 +23,31 @@ $pdf->AddPage();
 
 //$pdf->Cell();
 //$pdf->SetFont('Arial','BIU',16);
-$pdf->SetFillColor(123,255,234);
-$pdf->SetFont('Arial','',16);
-//$pdf->Cell(80,10,'Hello world',1,0,'C',false,'https://www.vpano360.com');
-$pdf->Cell(80,10,'Hello world1',1,1,'C',true);
-$pdf->Cell(80,10,'Hello world2',1,1,'C',true);
-$pdf->Cell(80,10,'Hello world3',1,0,'C',true);
+//$pdf->SetFillColor(123,255,234);
+$pdf->SetFont('Arial','B',16);
+//Cell(width, height, text, border, end line, [align])
+$pdf->Cell(80,10,'VPANO ONE',0,0,'');
+
+$pdf->SetFont('Arial','B',13);
+$pdf->Cell(112,10,'INVOICE',0,1,'C');
+
+$pdf->SetFont('Arial','',8);
+$pdf->Cell(80,5,'Address : Khatathorn Rd, Ratchaburi - TH',0,0,'');
+
+$pdf->SetFont('Arial','',10);
+$pdf->Cell(112,5,'Invoice : #12525',0,1,'C');
+
+$pdf->SetFont('Arial','',8);
+$pdf->Cell(80,5,'Phone Number : 66818546830',0,0,'');
+
+$pdf->SetFont('Arial','',10);
+$pdf->Cell(112,5,'Date : 04-10-2022',0,1,'C');
+
+$pdf->SetFont('Arial','',8);
+$pdf->Cell(80,5,'E-mail Address : boonruangs@gmail.com',0,1,'');
+$pdf->Cell(80,5,'Website : www.vpano360.com',0,1,'');
+
+
 
 //output the result
 $pdf->Output();
