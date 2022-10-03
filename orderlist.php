@@ -32,7 +32,7 @@ include_once 'header.php';
         -------------------------->
         
         <div class="box box-warning">
-           <form action="" method="post" name=""> 
+<!--           <form action="" method="post" name=""> -->
             <div class="box-header with-border">
               <h3 class="box-title">Order List</h3>
             </div>
@@ -76,7 +76,7 @@ include_once 'header.php';
                     <td>'.$row->payment_type.'</td>  
 
                     <td>
-                        <a href="viewproduct.php?id='.$row->invoice_id.'" class="btn btn-warning" role="button"><span class="glyphicon glyphicon-print" style="color:#ffffff" data-toggle="tooltip" title="Print Invoice"></span></a>
+                        <a href="invoice.php?id='.$row->invoice_id.'" class="btn btn-warning" role="button"><span class="glyphicon glyphicon-print" style="color:#ffffff" data-toggle="tooltip" title="Print Invoice"></span></a>
                     </td>
                     <td>
                         <a href="editorder.php?id='.$row->invoice_id.'" class="btn btn-info" role="button"><span class="glyphicon glyphicon-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit Order"></span></a>
@@ -95,7 +95,7 @@ include_once 'header.php';
             </table>
             </div>                     
             </div>
-            </form>
+<!--            </form>-->
         </div>                   
 
     </section>
@@ -117,6 +117,53 @@ $(document).ready( function () {
     $(document).ready( function () {
         $('[data-toggle="tooltip"]').tooltip();
      });
+
+    
+    $(document).ready(function(){
+
+        $('.btndelete').click(function(){
+
+            var tdh = $(this);
+            var id= $(this).attr("id");
+
+
+            swal({
+              title: "Do you want to delete Order?",
+              text: "Once Order is deleted, you can't recover it!",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
+                $.ajax({
+
+                    url:'orderdelete.php',
+                    type: 'post',
+                    data: {
+                        invid:id
+                    },
+                    success: function(data){
+                        tdh.parents('tr').hide();
+                    }
+                });
+
+                swal("Your Order has been deleted!", {
+                  icon: "success",
+                });
+              } else {
+                swal("Your Order is safe!");
+              }
+            });
+
+
+
+
+        });
+
+    });
+    
 </script>
 
 
