@@ -204,8 +204,9 @@ desired effect
         
         <li><a href="productlist.php"><i class="fa fa-th-list"></i> <span>Product List</span></a></li> 
         
-        <li><a href="createorder.php"><i class="fa fa-th-list"></i> <span>Create Order</span></a></li>                                                                                         
-
+        <li><a href="createorder.php"><i class="fa fa-first-order"></i> <span>Create Order</span></a></li>      
+        
+        <li><a href="orderlist.php"><i class="fa fa-th-list"></i> <span>Order List</span></a></li>                                                                                                                                                                                                                                                         
         <li><a href="registration.php"><i class="fa fa-registered"></i> <span>Registration</span></a></li>                         
 <!--
         <li class="treeview">

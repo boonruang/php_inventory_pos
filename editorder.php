@@ -411,6 +411,7 @@ include_once 'header.php';
                         tr.find(".total").val(tr.find(".qty").val() * tr.find(".price").val());
                         
                     calculate(0,0);
+                    $("#txtpaid").val("");
 
                     }
                     
@@ -457,6 +458,7 @@ include_once 'header.php';
                         tr.find(".total").val(tr.find(".qty").val() * tr.find(".price").val());
                         
                     calculate(0,0);
+                    $("#txtpaid").val("");
 
                     }
                     
@@ -466,29 +468,30 @@ include_once 'header.php';
         }); // btnadd end here
         
         
-        
-        
         $(document).on('click','.btnremove', function(){
             $(this).closest('tr').remove();
             calculate(0,0);
-//            $("#txtdiscount").val(0);
-            $("#txtpaid").val(0);
+            
+            $("#txtpaid").val("");
+            
         }); // btnremove end here
         
         $("#producttable").delegate(".qty","keyup change", function(){
             
             var quantity = $(this);
             var tr= $(this).parent().parent();
-            
+            $("#txtpaid").val("");
             if ((quantity.val()-0)>(tr.find(".stock").val()-0)) {
                 swal("Warning!","Sorry! This much of quantity is not available","warning");
                 quantity.val(1);
                 tr.find(".total").val(quantity.val() * tr.find(".price").val());
+                calculate(0,0);
             } else {
                 tr.find(".total").val(quantity.val() * tr.find(".price").val());
+                calculate(0,0);
             }
             
-            calculate(0,0);
+
             
         });
         
