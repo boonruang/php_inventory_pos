@@ -3,7 +3,7 @@ include_once 'connectdb.php';
 
 session_start();
 
-function fill_product($pdo){
+function fill_product($pdo,$pid){
     $output = '';
     
     $select = $pdo->prepare("select * from tbl_product order by pname asc");
@@ -12,12 +12,20 @@ function fill_product($pdo){
     $result = $select->fetchAll();
     
     foreach($result as $row){
-        $output .= '<option value="'.$row["pid"].'">'.$row["pname"].'</option>';
+        $output .= '<option value="'.$row["pid"].'"';
+        
+            if ($pid == $row['pid']) {
+                $output .= 'selected';
+            }
+            $output .= '>'.$row["pname"].'</option>';
+        
+            
     }
     
     return $output;
 }
 
+// fill invoince text fields
 $id = $_GET['id'];
 $select = $pdo->prepare("select * from tbl_invoice where invoice_id =$id");
 $select->execute();
@@ -34,7 +42,12 @@ $paid = $row['paid'];
 $due = $row['due'];
 $payment_type = $row['payment_type'];
 
+$select = $pdo->prepare("select * from tbl_invoice_details where invoice_id =$id");
+$select->execute();
 
+$row_invoice_details = $select->fetchAll(PDO::FETCH_ASSOC);
+
+// do update
 
 if (isset($_POST['btnupdateorder'])) {
     
@@ -190,6 +203,36 @@ include_once 'header.php';
                                 </th>
                             </tr>
                         </thead>
+                        
+                        <?php
+    foreach($row_invoice_details as $item_invoice_details){
+        
+    $select = $pdo->prepare("select * from tbl_product where pid ='{$item_invoice_details['product_id']}' ");
+    $select->execute();
+
+    $row_product = $select->fetch(PDO::FETCH_ASSOC);
+    ?>
+    <tr>
+    <?php
+
+            echo '<td><input type="hidden" class="form-control pname" name="productname[]" readonly></td>';
+            
+            echo '<td><select class="form-control productidedit" name="productid[]" style="width: 250px"><option value="">Select Option</option>'.fill_product($pdo,$item_invoice_details['product_id']).'></select></td>';            
+            
+            
+            echo '<td><input type="text" class="form-control stock" name="stock[]" value="'.$row_product['pstock'].'" readonly></td>';     
+            
+            echo '<td><input type="text" class="form-control price" name="price[]" value="'.$row_product['saleprice'].'"  readonly></td>';   
+            
+            echo '<td><input type="number" min="1" class="form-control qty" name="qty[]" value="'.$item_invoice_details['qty'].'"  ></td>';             
+            
+            echo '<td><input type="text" class="form-control total" name="total[]" value="'.$row_product['saleprice']*$item_invoice_details['qty'].'" readonly></td>';             
+            
+            echo '<td><center><button type="button" name="remove" class="btn btn-danger btn-sm btnremove" ><span class="glyphicon glyphicon-remove"></span></button></center></td>';   
+        
+    ?>
+    </tr>    
+<?php } ?>                                  
                     </table>   
                     </div>           
                 </div>
@@ -261,13 +304,13 @@ include_once 'header.php';
                       <label>Payment Method</label>
                       <div class="form-group">
                         <label>
-                          <input type="radio" name="rb" class="minimal-red" value="Cash" checked> CASH
+                          <input type="radio" name="rb" class="minimal-red" value="Cash" <?php echo ($payment_type == 'Cash')? 'checked' : '' ?>> CASH
                         </label>
                         <label>
-                          <input type="radio" name="rb" class="minimal-red" value="Card"> CARD
+                          <input type="radio" name="rb" class="minimal-red" value="Card" <?php echo ($payment_type == 'Card')? 'checked' : '' ?>> CARD
                         </label>
                         <label>
-                          <input type="radio" name="rb" class="minimal-red" value="Check"> 
+                          <input type="radio" name="rb" class="minimal-red" value="Check" <?php echo ($payment_type == 'Check')? 'checked' : '' ?>> 
                           CHECK
                         </label>
                       </div>   
@@ -301,12 +344,38 @@ include_once 'header.php';
     });  
     
     $(document).ready(function(){
+        
+            $('.productidedit').select2();
+            $('.productidedit').on('change', function(e){
+                
+                var productid = this.value;
+                //var tr= $(this).parents("tr").parent(); //this work also.
+                var tr= $(this).parent().parent();
+                $.ajax({
+                    url: "getproduct.php",
+                    method: "get",
+                    data: {id : productid},
+                    success: function(data) {
+                        tr.find(".pname").val(data["pname"]);
+                        tr.find(".stock").val(data["pstock"]);
+                        tr.find(".price").val(data["saleprice"]);
+                        tr.find(".qty").val(1);
+                        tr.find(".total").val(tr.find(".qty").val() * tr.find(".price").val());
+                        
+                    calculate(0,0);
+
+                    }
+                    
+                })
+            });        
+        
+        
         $(document).on('click','.btnadd', function(){
             var html='';
             html+='<tr>';
             html+='<td><input type="hidden" class="form-control pname" name="productname[]" readonly></td>';
             
-            html+='<td><select class="form-control productid" name="productid[]" style="width: 250px"><option value="">Select Option</option><?php echo fill_product($pdo); ?></select></td>';            
+            html+='<td><select class="form-control productid" name="productid[]" style="width: 250px"><option value="">Select Option</option><?php echo fill_product($pdo,''); ?></select></td>';            
             
             
             html+='<td><input type="text" class="form-control stock" name="stock[]" readonly></td>';     
@@ -347,6 +416,9 @@ include_once 'header.php';
             });
             
         }); // btnadd end here
+        
+        
+        
         
         $(document).on('click','.btnremove', function(){
             $(this).closest('tr').remove();
