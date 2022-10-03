@@ -101,7 +101,6 @@ if (isset($_POST['btnupdateorder'])) {
                        
     $update_invoice->execute();
                        
-    //2nd insert query for tbl_invoice_details
     $invoice_id = $pdo->lastInsertId();
     if ($invoice_id != null) {
         
@@ -118,7 +117,7 @@ if (isset($_POST['btnupdateorder'])) {
             $rem_qty = $db_stock[$i] - $arr_qty[$i];
             
             if ($rem_qty < 0) {
-                return "Order is not complete";
+                return "Order is not updated";
             } else {
                 
 // 6) Write update query for tbl_product table to update stock value.
