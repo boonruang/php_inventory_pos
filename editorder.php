@@ -262,7 +262,7 @@ include_once 'header.php';
     <tr>
     <?php
 
-            echo '<td><input type="hidden" class="form-control pname" name="productname[]" readonly></td>';
+            echo '<td><input type="hidden" class="form-control pname" name="productname[]" value="'.$row_product['pname'].'" readonly></td>';
             
             echo '<td><select class="form-control productidedit" name="productid[]" style="width: 250px"><option value="">Select Option</option>'.fill_product($pdo,$item_invoice_details['product_id']).'></select></td>';            
             
