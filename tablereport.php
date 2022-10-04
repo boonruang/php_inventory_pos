@@ -1,4 +1,5 @@
 <?php 
+
 include_once 'connectdb.php';
 session_start();
 include_once 'header.php'; 
@@ -9,7 +10,7 @@ include_once 'header.php';
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Admin Dashboard
+        Table Report -> Sales Report
         <small></small>
       </h1>
       <ol class="breadcrumb">
@@ -33,6 +34,9 @@ include_once 'header.php';
             <!-- /.box-header -->
             <!-- form start -->
             <div class="box-body">
+            
+            
+            
             </div>
             </form>
         </div>                   
