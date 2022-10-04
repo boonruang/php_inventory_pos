@@ -1,6 +1,7 @@
 <?php 
 
 include_once 'connectdb.php';
+error_reporting(0);
 session_start();
 include_once 'header.php'; 
 ?>
@@ -29,7 +30,7 @@ include_once 'header.php';
         <div class="box box-warning">
            <form action="" method="post" name=""> 
             <div class="box-header with-border">
-              <h3 class="box-title">blank</h3>
+              <h3 class="box-title">From : <?php echo $_POST['date_1']?> -- to : <?php echo $_POST['date_2']?></h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
@@ -130,19 +131,42 @@ include_once 'header.php';
                     <tr>
                         <th>Invoice ID</th>
                         <th>Customer Name</th>
-                        <th>Order Date</th>
+                        <th>SubTotal</th>
+                        <th>Tax</th>
+                        <th>Discount</th>
                         <th>Total</th>
                         <th>Paid</th>
+                        <th>Due</th>
+                        <th>Payment Type</th>                        
+                        <th>Order Date</th>                        
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                        <td>---</td>
-                    </tr>
+
+            <?php
+            $select = $pdo->prepare("select * from tbl_invoice where order_date between :fromdate AND :todate");
+            $select->bindParam(':fromdate',$_POST['date_1']);
+            $select->bindParam(':todate',$_POST['date_2']);
+            $select->execute();
+
+            while($row = $select->fetch(PDO::FETCH_OBJ)) {
+               echo '
+                <tr>
+                    <td>'.$row->invoice_id.'</td>
+                    <td>'.$row->customer_name.'</td>
+                    <td>'.$row->subtotal.'</td>
+                    <td>'.$row->tax.'</td>
+                    <td>'.$row->discount.'</td>
+                    <td>'.$row->total.'</td>
+                    <td>'.$row->paid.'</td>
+                    <td>'.$row->due.'</td>
+                    <td>'.$row->payment_type.'</td>  
+                    <td>'.$row->order_date.'</td>                    
+                </tr>     
+                '; 
+            }
+
+            ?>           
                 </tbody>
             </table>                          
             
