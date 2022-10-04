@@ -111,7 +111,7 @@ $pdf->Cell(40,8,$row->discount,1,1,'C');
 $pdf->SetFont('Arial','B',14);
 $pdf->Cell(100,8,'',0,0,'L'); //190
 $pdf->Cell(20,8,'',0,0,'C');; 
-$pdf->Cell(30,8,'GrandTotal',1,0,'C',true);
+$pdf->Cell(30,8,'Grand Total',1,0,'C',true);
 $pdf->Cell(40,8,'$'.$row->total,1,1,'C');
 
 $pdf->SetFont('Arial','B',12);
