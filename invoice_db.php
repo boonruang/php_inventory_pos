@@ -78,11 +78,17 @@ $pdf->Cell(20,8,'QTY',1,0,'C',true);;
 $pdf->Cell(30,8,'PRICE',1,0,'C',true);
 $pdf->Cell(40,8,'TOTAL',1,1,'C',true);
 
-$pdf->SetFont('Arial','B',12);
-$pdf->Cell(100,8,'Iphone 14',1,0,'L'); //190
-$pdf->Cell(20,8,'1',1,0,'C');; 
-$pdf->Cell(30,8,'900',1,0,'C');
-$pdf->Cell(40,8,'900',1,1,'C');
+$select = $pdo->prepare("select * from tbl_invoice_details where invoice_id =$id");
+$select->execute();
+
+while ($item = $select->fetch(PDO::FETCH_OBJ)) {
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(100,8,$item->product_name,1,0,'L'); //190
+    $pdf->Cell(20,8,$item->qty,1,0,'C');; 
+    $pdf->Cell(30,8,$item->price,1,0,'C');
+    $pdf->Cell(40,8,$item->qty*$item->price ,1,1,'C');
+    
+}
 
 $pdf->SetFont('Arial','B',12);
 $pdf->Cell(100,8,'',0,0,'L'); //190
@@ -132,7 +138,7 @@ $pdf->SetFont('Arial','B',10);
 $pdf->Cell(32,10,'Important Notice:',0,0,'L',true); 
 
 $pdf->SetFont('Arial','',8);
-$pdf->Cell(148,10,'Hello Friends, I tried again n again but I believe I am lost. My data is not saving into database. When I click on Save',0,0,''); 
+$pdf->Cell(148,10,'Thanks for shopping at VPANO ONE. We hope to have the pleasure of doing business with you in the future',0,0,''); 
 
 
 
