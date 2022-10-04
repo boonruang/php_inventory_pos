@@ -56,65 +56,66 @@ include_once 'header.php';
                 </div>                    
                 <div class="col-md-2">
                     <div align="left">
-                        <input type="submit" name="btndatefilter" value="Filter By Dater" class="btn btn-success">
+                        <input type="submit" name="btndatefilter" value="Filter By Date" class="btn btn-success">
                     </div>                        
                 </div>                    
             </div>
                
                <br>
-                
+            <?php
+            $select = $pdo->prepare("select sum(total) as total, sum(subtotal) as stotal,count(invoice_id) as invoice from tbl_invoice where order_date between :fromdate AND :todate");
+            $select->bindParam(':fromdate',$_POST['date_1']);
+            $select->bindParam(':todate',$_POST['date_2']);
+            $select->execute();
+
+            $row = $select->fetch(PDO::FETCH_OBJ);
+                  
+            $net_total = $row->total;
+                  
+            $stotal = $row->stotal;
+                  
+            $invoice = $row->invoice;
+                  
+                  
+            ?>
               <!-- Info boxes -->
               <div class="row">
-                <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="col-md-4 col-sm-6 col-xs-12">
                   <div class="info-box">
-                    <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+                    <span class="info-box-icon bg-aqua"><i class="fa fa-files-o"></i></span>
 
                     <div class="info-box-content">
-                      <span class="info-box-text">CPU Traffic</span>
-                      <span class="info-box-number">90<small>%</small></span>
+                      <span class="info-box-text">Total Invoice</span>
+                      <span class="info-box-number"><h2><?php echo number_format($invoice); ?></h2></span>
                     </div>
                     <!-- /.info-box-content -->
                   </div>
                   <!-- /.info-box -->
                 </div>
-                <!-- /.col -->
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                  <div class="info-box">
-                    <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
-
-                    <div class="info-box-content">
-                      <span class="info-box-text">Likes</span>
-                      <span class="info-box-number">41,410</span>
-                    </div>
-                    <!-- /.info-box-content -->
-                  </div>
-                  <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
 
                 <!-- fix for small devices only -->
                 <div class="clearfix visible-sm-block"></div>
 
-                <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="col-md-4 col-sm-6 col-xs-12">
                   <div class="info-box">
-                    <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+                    <span class="info-box-icon bg-green"><i class="fa fa-usd"></i></span>
 
                     <div class="info-box-content">
-                      <span class="info-box-text">Sales</span>
-                      <span class="info-box-number">760</span>
+                      <span class="info-box-text">Sub Total</span>
+                        <span class="info-box-number"><h2><?php echo number_format($stotal,2); ?></h2></span>
                     </div>
                     <!-- /.info-box-content -->
                   </div>
                   <!-- /.info-box -->
                 </div>
                 <!-- /.col -->
-                <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="col-md-4 col-sm-6 col-xs-12">
                   <div class="info-box">
-                    <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+                    <span class="info-box-icon bg-yellow"><i class="fa fa-usd"></i></span>
 
                     <div class="info-box-content">
-                      <span class="info-box-text">New Members</span>
-                      <span class="info-box-number">2,000</span>
+                      <span class="info-box-text">Net Total</span>
+                      <span class="info-box-number"><h2><?php echo number_format($net_total,2); ?></h2></span>
                     </div>
                     <!-- /.info-box-content -->
                   </div>
@@ -132,7 +133,7 @@ include_once 'header.php';
                         <th>Invoice ID</th>
                         <th>Customer Name</th>
                         <th>SubTotal</th>
-                        <th>Tax</th>
+                        <th>Tax(5%)</th>
                         <th>Discount</th>
                         <th>Total</th>
                         <th>Paid</th>
@@ -171,7 +172,6 @@ include_once 'header.php';
                 } else {
                     echo  '<td><span class="label label-info">'.$row->payment_type.'<span></td>';
                 }
-                
             }
 
             ?>           
