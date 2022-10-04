@@ -137,8 +137,8 @@ include_once 'header.php';
                         <th>Total</th>
                         <th>Paid</th>
                         <th>Due</th>
+                        <th>Order Date</th>                             
                         <th>Payment Type</th>                        
-                        <th>Order Date</th>                        
                     </tr>
                 </thead>
                 <tbody>
@@ -157,13 +157,21 @@ include_once 'header.php';
                     <td>'.$row->subtotal.'</td>
                     <td>'.$row->tax.'</td>
                     <td>'.$row->discount.'</td>
-                    <td>'.$row->total.'</td>
+                    <td><span class="label label-danger">'."$".$row->total.'</span></td>
                     <td>'.$row->paid.'</td>
                     <td>'.$row->due.'</td>
-                    <td>'.$row->payment_type.'</td>  
+                    
+                    
                     <td>'.$row->order_date.'</td>                    
-                </tr>     
                 '; 
+                if ($row->payment_type == 'Cash') {
+                    echo  '<td><span class="label label-primary">'.$row->payment_type.'<span></td>';
+                } else if ($row->payment_type == 'Card') {
+                    echo  '<td><span class="label label-warning">'.$row->payment_type.'<span></td>';
+                } else {
+                    echo  '<td><span class="label label-info">'.$row->payment_type.'<span></td>';
+                }
+                
             }
 
             ?>           
@@ -187,7 +195,11 @@ include_once 'header.php';
     
     $('#datepicker2').datepicker({
       autoclose: true
-    });    
+    }); 
+    
+    $('#salesreporttable').DataTable({
+        "order" : [[0, "desc"]]
+    });
 </script>
 
 <!-- Main Footer -->
