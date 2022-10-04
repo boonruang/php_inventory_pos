@@ -62,6 +62,7 @@ include_once 'header.php';
             </div>
                
                <br>
+               <br>
             <?php
             $select = $pdo->prepare("select sum(total) as total, sum(subtotal) as stotal,count(invoice_id) as invoice from tbl_invoice where order_date between :fromdate AND :todate");
             $select->bindParam(':fromdate',$_POST['date_1']);
