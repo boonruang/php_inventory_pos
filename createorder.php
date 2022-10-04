@@ -266,7 +266,7 @@ include_once 'header.php';
             </form>
         </div>                    
 
-    </section>
+        </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
