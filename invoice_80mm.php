@@ -57,6 +57,77 @@ $pdf->SetFont('Courier','BI',8);
 $pdf->Cell(40,4,$row->order_date,0,1,'');
 
 
+////////
+
+//////// product table code
+
+////////
+
+
+$pdf->SetX(7);
+$pdf->SetFont('Courier','B',8);
+$pdf->Cell(20,5,'',0,0,'L'); //80
+//$pdf->Cell(20,5,'',0,0,'C');; 
+$pdf->Cell(25,5,'SUBTOTAL',1,0,'C');
+$pdf->Cell(20,5,$row->subtotal,1,1,'C');
+
+$pdf->SetX(7);
+$pdf->SetFont('Courier','B',8);
+$pdf->Cell(20,5,'',0,0,'L'); //80
+//$pdf->Cell(20,5,'',0,0,'C');; 
+$pdf->Cell(25,5,'TAX(5%)',1,0,'C');
+$pdf->Cell(20,5,$row->tax,1,1,'C');
+
+$pdf->SetX(7);
+$pdf->SetFont('Courier','B',8);
+$pdf->Cell(20,5,'',0,0,'L'); //80
+//$pdf->Cell(20,5,'',0,0,'C');; 
+$pdf->Cell(25,5,'DISCOUNT',1,0,'C');
+$pdf->Cell(20,5,$row->discount,1,1,'C');
+
+$pdf->SetX(7);
+$pdf->SetFont('Courier','B',10);
+$pdf->Cell(20,5,'',0,0,'L'); //80
+//$pdf->Cell(20,5,'',0,0,'C');; 
+$pdf->Cell(25,5,'GRAND TOTAL',1,0,'C');
+$pdf->Cell(20,5,$row->total,1,1,'C');
+
+$pdf->SetX(7);
+$pdf->SetFont('Courier','B',8);
+$pdf->Cell(20,5,'',0,0,'L'); //80
+//$pdf->Cell(20,5,'',0,0,'C');; 
+$pdf->Cell(25,5,'PAID',1,0,'C');
+$pdf->Cell(20,5,$row->paid,1,1,'C');
+
+$pdf->SetX(7);
+$pdf->SetFont('Courier','B',8);
+$pdf->Cell(20,5,'',0,0,'L'); //80
+//$pdf->Cell(20,5,'',0,0,'C');; 
+$pdf->Cell(25,5,'DUE',1,0,'C');
+$pdf->Cell(20,5,$row->due,1,1,'C');
+
+$pdf->SetX(7);
+$pdf->SetFont('Courier','B',8);
+$pdf->Cell(20,5,'',0,0,'L'); //80
+//$pdf->Cell(20,5,'',0,0,'C');; 
+$pdf->Cell(25,5,'Payment Type',1,0,'C');
+$pdf->Cell(20,5,$row->payment_type,1,1,'C');
+
+$pdf->Cell(20,5,'',0,1,'');
+
+$pdf->SetX(7);
+$pdf->SetFont('Courier','B',8);
+$pdf->Cell(25,5,'Important Notice :',0,1,''); 
+
+$pdf->SetX(7);
+$pdf->SetFont('Arial','',5);
+$pdf->Cell(75,5,'Thanks for shopping at VPANO ONE. We hope to have the pleasure of doing',0,2,''); 
+
+$pdf->SetX(7);
+$pdf->SetFont('Arial','',5);
+$pdf->Cell(75,5,'business with you in the future',0,1,''); 
+
+
 $pdf->Output();
 
 ?>
