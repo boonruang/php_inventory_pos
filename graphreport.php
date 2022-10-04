@@ -81,6 +81,26 @@ include_once 'header.php';
             <div class="chart">
                 <canvas id="myChart" style="height:250px"></canvas>                
             </div>
+            <?php
+            $select = $pdo->prepare("select product_name, sum(qty) as q from tbl_invoice_details where order_date between :fromdate AND :todate group by product_id");
+            $select->bindParam(':fromdate',$_POST['date_1']);
+            $select->bindParam(':todate',$_POST['date_2']);
+            $select->execute();
+                
+            $pname = [];
+            $qty = [];
+
+            while($row = $select->fetch(PDO::FETCH_ASSOC)) {
+                extract($row);
+                $pname[] = $product_name;
+                $qty[] = $q;
+            }
+             
+            ?>   
+                      
+            <div class="chart">
+                <canvas id="bestsellingproduct" style="height:250px"></canvas>                
+            </div>            
             
             </div>
             </form>
@@ -91,27 +111,9 @@ include_once 'header.php';
   </div>
   <!-- /.content-wrapper -->
 
-<script>
-    //Date picker
-    $('#datepicker1').datepicker({
-      autoclose: true
-    });
-    
-    $('#datepicker2').datepicker({
-      autoclose: true
-    }); 
-
-</script>    
+ 
   
 <script>
-  const labels = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-  ];
 
   const data = {
     labels: <?php echo json_encode($date); ?>,
@@ -119,7 +121,8 @@ include_once 'header.php';
       label: 'Total Earning',
       fill: true,
       backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',        
+
       data: <?php echo json_encode($total); ?>,
       cubicInterpolationMode: 'monotone',
     }]
@@ -133,14 +136,55 @@ include_once 'header.php';
     data: data,
     options: {}
   };
-</script>
-
-<script>
+    
   const myChart = new Chart(
     document.getElementById('myChart'),
     config
-  );
+  );    
 </script>
+
+<script>
+
+  const data2 = {
+    labels: <?php echo json_encode($pname); ?>,
+    datasets: [{
+      label: 'Total Quantity',
+      fill: true,
+      backgroundColor: 'rgb(0, 150, 255)',
+      borderColor: 'rgb(0, 102, 0)',    
+      data: <?php echo json_encode($qty); ?>,
+      cubicInterpolationMode: 'monotone',
+    }]
+  };
+
+  const config2 = {
+    type: 'line',
+//    type: 'bar',
+//    type: 'pie',
+//    type: 'bar',
+    data: data2,
+    options: {}
+  };
+
+  const myChart2 = new Chart(
+    document.getElementById('bestsellingproduct'),
+    config2
+  );      
+  
+</script>
+
+
+<script>
+    //Date picker
+    $('#datepicker1').datepicker({
+      autoclose: true
+    });
+    
+    $('#datepicker2').datepicker({
+      autoclose: true
+    }); 
+
+</script>  
 
 <!-- Main Footer -->
 <?php 
