@@ -1,7 +1,12 @@
 <?php 
 include_once 'connectdb.php';
 
+error_reporting(0);
 session_start();
+if ($_SESSION['useremail'] == "" OR $_SESSION['role'] == '') {
+    header('location:index.php');
+}
+
 
 function fill_product($pdo,$pid){
     $output = '';
@@ -169,7 +174,12 @@ if (isset($_POST['btnupdateorder'])) {
                            
 }
 
-include_once 'header.php'; 
+if ($_SESSION['role'] == 'Admin') {
+    include_once 'header.php'; 
+} else {
+    include_once 'headeruser.php'; 
+}
+
 ?>
  
   <!-- Content Wrapper. Contains page content -->
