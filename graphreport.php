@@ -2,6 +2,9 @@
 include_once 'connectdb.php';
 error_reporting(0);
 session_start();
+if ($_SESSION['useremail'] == "" OR $_SESSION['role'] != 'Admin') {
+    header('location:index.php');
+}
 include_once 'header.php'; 
 ?>
  
