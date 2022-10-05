@@ -177,7 +177,7 @@ include_once 'header.php';
                 <tbody>
 
             <?php
-            $select = $pdo->prepare("select product_id,product_name,price,sum(qty) as q,sum(qty*price) as total from tbl_invoice_details group by product_id order by sum(qty) DESC LIMIT 30");
+            $select = $pdo->prepare("select product_id,product_name,price,sum(qty) as q,sum(qty*price) as total from tbl_invoice_details group by product_id order by sum(qty) DESC LIMIT 10");
                     
             $select->execute();
 
@@ -224,7 +224,7 @@ include_once 'header.php';
                 <tbody>
 
             <?php
-            $select = $pdo->prepare("select * from tbl_invoice order by invoice_id desc LIMIT 50");
+            $select = $pdo->prepare("select * from tbl_invoice order by invoice_id desc LIMIT 10");
             $select->execute();
 
 
@@ -267,6 +267,7 @@ include_once 'header.php';
   </div>
   <!-- /.content-wrapper -->
   
+<!--
 <script>
 $(document).ready( function () {
         $('#bestsellingproductlist').DataTable({
@@ -282,6 +283,7 @@ $(document).ready( function () {
         });
     });
 </script>
+-->
   
 <script>
 
