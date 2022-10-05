@@ -70,14 +70,25 @@ include_once 'header.php';
             <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        
+<?php
+          
+$select = $pdo->prepare(" select count(pname) as p from tbl_product");
+$select->execute();
+$row = $select->fetch(PDO::FETCH_OBJ);
+
+$total_product = $row->p;
+          
+?>
+        
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>44</h3>
+              <h3><?php echo $total_product;?></h3>
 
-              <p>User Registrations</p>
+              <p>Total Product</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
@@ -85,14 +96,25 @@ include_once 'header.php';
             <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        
+<?php
+          
+$select = $pdo->prepare(" select count(category) as cate from tbl_category");
+$select->execute();
+$row = $select->fetch(PDO::FETCH_OBJ);
+
+$total_category = $row->cate;
+          
+?>
+               
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3>65</h3>
+              <h3><?php echo $total_category;?></h3>
 
-              <p>Unique Visitors</p>
+              <p>Total Category</p>
             </div>
             <div class="icon">
               <i class="ion ion-pie-graph"></i>
